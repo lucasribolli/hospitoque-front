@@ -7,8 +7,9 @@ class AuthRepository {
 
   static Future<bool> auth(String email) async {
     var dio = Dio();
-    var response = await dio.get('$Constants.BASE_URL/auth?email=$email');
+    var response = await dio.get('${Constants.BASE_URL}/auth?email=$email');
     debugPrint('response.data -> ${response.data}');
-    return false;
+    bool isAuthorized = response.data['authorized'];
+    return isAuthorized;
   }
 }

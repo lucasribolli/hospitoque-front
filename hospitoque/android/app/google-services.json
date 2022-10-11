@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "286345242807",
+    "project_id": "hospitoque",
+    "storage_bucket": "hospitoque.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286345242807:android:c3a0d4687b38476da38532",
+        "android_client_info": {
+          "package_name": "com.puc.hospitoque"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286345242807-eq7l93s77r1222bg4vaoiq5hn43bs5nr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.puc.hospitoque",
+            "certificate_hash": "c51e715f39911ddbd5df6ec36e8266daecb5a7d9"
+          }
+        },
+        {
+          "client_id": "286345242807-56odrdvrm9o0khasculfvg8jhevfg8gp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVH_79_Q8x067nVM1s-9IM9tOZR9ywRmY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286345242807-56odrdvrm9o0khasculfvg8jhevfg8gp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

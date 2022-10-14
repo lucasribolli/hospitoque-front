@@ -1,45 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:hospitoque/ui/routes.dart';
+import 'package:hospitoque/ui/ui_extensions.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Flexible(
-          flex: 2,
-          child: Text('Hospitoque'),
-        ),
-        Expanded(
-          flex: 6,
-          child: GridView.count(
-            crossAxisCount: 2,
-            children: _items()
-                .map(
-                  (i) => GestureDetector(
-                    onTap: () {
-                      if (i.isEnabled) {
-                        Navigator.pushNamed(context, i.route!);
-                      }
-                    },
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Icon(
-                            i.icon,
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(3)),
+          child: Column(
+            children: [
+              const Spacer(flex: 1),
+              Flexible(
+                flex: 3,
+                child: Text(
+                  'Hospitoque',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              const Spacer(flex: 1),
+              Expanded(
+                flex: 28,
+                child: GridView.count(
+                  childAspectRatio: 6 / 5,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  children: _items()
+                      .map(
+                        (i) => GestureDetector(
+                          onTap: () {
+                            if (i.isEnabled) {
+                              Navigator.pushNamed(context, i.route!);
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(context.layoutWidth(3)),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(context.layoutWidth(3)),
+                              color: i.isEnabled
+                                  ? null
+                                  : Theme.of(context).disabledColor,
+                              border: Border.all(
+                                color: Theme.of(context).highlightColor,
+                                width: 1,
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  i.icon,
+                                  size: context.layoutHeight(8),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(6.5)),
+                                  child: Text(
+                                    i.text,
+                                    style: Theme.of(context).textTheme.titleSmall,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(i.text),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }
@@ -104,5 +140,5 @@ class _MainScreenItem {
     required this.icon,
     this.route,
     required this.isEnabled,
-  }) : assert(isEnabled && route != null);
+  });
 }

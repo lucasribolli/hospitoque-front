@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart' show debugPrint, immutable;
-import 'package:hospitoque/repositories/auth_repository.dart';
 import 'package:hospitoque/repositories/google_sign_in_repository.dart';
+import 'package:hospitoque/repositories/repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -13,9 +13,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthEventSignIn(AuthEventSignIn event, emit) async {
     try {
-      String? email = await GoogleSignInRepository.signIn();
+      // String? email = await GoogleSignInRepository.signIn();
+      String? email = 'email';
       if(email != null) {
-        bool isAuthorized = await AuthRepository.auth(email);
+        // bool isAuthorized = await HospitoqueRepository.auth(email);
+        bool isAuthorized = true;
         if(isAuthorized) {
           emit(AuthSuccessState());
         } else {

@@ -120,7 +120,7 @@ List<_MainScreenItem> _items() => [
         text: 'Descartar Medicamento',
         icon: Icons.delete_outline,
         isEnabled: true,
-        route: HospitoqueRouter.SEARCH_MEDICINE_ROUTE,
+        route: HospitoqueRouter.DISCARD_MEDICINE_ROUTE,
       ),
       _MainScreenItem(
         text: 'Editar Medicamento',

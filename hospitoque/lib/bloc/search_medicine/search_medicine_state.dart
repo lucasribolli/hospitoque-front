@@ -1,10 +1,10 @@
 part of 'search_medicine_bloc.dart';
 
 class SearchMedicineState {
-  List<Medicine>? medicines = [];
+  List<Medicine> medicines;
 
   SearchMedicineState({
-    this.medicines,
+    this.medicines = const [],
   });
 
   SearchMedicineState copyWith({
@@ -14,4 +14,7 @@ class SearchMedicineState {
       medicines: medicines ?? this.medicines,
     );
   }
+
+  @override
+  String toString() => 'SearchMedicineState(medicines: $medicines)';
 }

@@ -19,7 +19,7 @@ class Medicine {
 
   factory Medicine.fromMap(Map<String, dynamic> map) {
     return Medicine(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       name: map['name'] ?? '',
       manufacturer: map['manufacturer'] ?? '',
       composition: List<String>.from(map['composition']),

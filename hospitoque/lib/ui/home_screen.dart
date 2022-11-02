@@ -43,9 +43,9 @@ class _ItemsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-      childAspectRatio: _itemAspectRatio,
+      childAspectRatio: _itemAspectRatio(context),
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: kIsWeb ? 4 : 2,
+      crossAxisCount: context.isLargeWidth ? 4 : 2,
       children: _items()
           .map(
             (i) => GestureDetector(
@@ -89,8 +89,8 @@ class _ItemsWidget extends StatelessWidget {
     );
   }
 
-  double get _itemAspectRatio {
-    if(kIsWeb) {
+  double _itemAspectRatio(BuildContext c) {
+    if(c.isLargeWidth) {
       return 11 / 10;
     }
     return 6 / 5;

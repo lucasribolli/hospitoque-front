@@ -9,3 +9,12 @@ extension ScreenSize on BuildContext {
   double get height => MediaQuery.of(this).size.height;
   double get width => MediaQuery.of(this).size.width;
 }
+
+extension ScreenVerification on BuildContext {
+  bool get isLargeWidth {
+    debugPrint('width -> $width');
+    debugPrint('height -> $height');
+    debugPrint('widgth / height -> ${width / height}');
+    return width / height >= 1.96;
+  }
+}

@@ -13,11 +13,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onAuthEventSignIn(AuthEventSignIn event, emit) async {
     try {
-      // String? email = await GoogleSignInRepository.signIn();
-      String? email = 'email';
+      String? email = await GoogleSignInRepository.signIn();
       if(email != null) {
-        // bool isAuthorized = await HospitoqueRepository.auth(email);
-        bool isAuthorized = true;
+        bool isAuthorized = await HospitoqueRepository.auth(email);
         if(isAuthorized) {
           emit(AuthSuccessState());
         } else {

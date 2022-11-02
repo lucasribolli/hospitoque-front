@@ -19,6 +19,34 @@ class HospitoqueRepository {
     var response = await dio.get('${Constants.BASE_URL}/medicine');
     debugPrint('response.data -> ${response.data}');
     List<dynamic> medicinesResponse = response.data;
+    return mockedMedicines();
     return medicinesResponse.map((m) => Medicine.fromMap(m)).toList();
   }
 }
+
+List<Medicine> mockedMedicines() => [
+      Medicine(
+        id: '1235156234',
+        name: 'name',
+        manufacturer: 'manufacturer',
+        composition: ['composition'],
+        variant: ['variant'],
+        creationDate: 'creationDate',
+      ),
+      Medicine(
+        id: '1235156234',
+        name: 'name',
+        manufacturer: 'manufacturer',
+        composition: ['composition'],
+        variant: ['variant'],
+        creationDate: 'creationDate',
+      ),
+      Medicine(
+        id: '1235156234',
+        name: 'name',
+        manufacturer: 'manufacturer',
+        composition: ['composition'],
+        variant: ['variant'],
+        creationDate: 'creationDate',
+      ),
+    ];

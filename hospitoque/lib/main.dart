@@ -28,6 +28,7 @@ class HospitoqueApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         onGenerateRoute: (settings) => HospitoqueRouter.generateRoute(settings),
+        debugShowCheckedModeBanner: false,
         home: const HomeScreen(),
       ),
     );

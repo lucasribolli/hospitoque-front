@@ -8,7 +8,7 @@ class Constants {
   static const REGISTER_CHECK_IN = 'Registrar Saída';
   static const REGISTER_CHECK_OUT = 'Registrar Entrada';
   static const CONFIRM_CHECK_IN = 'Confirmar Entrada';
-  static const ADD_MEDICINE = 'Cadastrar Medicamento';
+  static const REGISTER_MEDICINE = 'Cadastrar Medicamento';
   static const DISCARD_MEDICINE = 'Descartar Medicamento';
   static const EDIT_MEDICINE = 'Editar Medicamento';
 }

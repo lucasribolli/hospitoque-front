@@ -108,7 +108,7 @@ List<_MainScreenItem> _items() => [
         isEnabled: false,
       ),
       _MainScreenItem(
-        text: Constants.ADD_MEDICINE,
+        text: Constants.REGISTER_MEDICINE,
         icon: Icons.add,
         isEnabled: true,
         route: HospitoqueRouter.REGISTER_MEDICINE_ROUTE,

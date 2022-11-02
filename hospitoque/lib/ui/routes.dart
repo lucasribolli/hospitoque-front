@@ -3,6 +3,7 @@ import 'package:hospitoque/model/medicine.dart';
 import 'package:hospitoque/ui/auth_screen.dart';
 import 'package:hospitoque/ui/home_screen.dart';
 import 'package:hospitoque/ui/medicine_details.dart';
+import 'package:hospitoque/ui/register_medicine_screen.dart';
 import 'package:hospitoque/ui/search_medicine_screen.dart';
 
 class HospitoqueRouter {
@@ -24,6 +25,8 @@ class HospitoqueRouter {
         return MaterialPageRoute(builder: (_) => const SearchMedicineScreen());
       case MEDICINE_DETAILS_ROUTE:
         return MaterialPageRoute(builder: (_) => MedicineDetails(medicine: settings.arguments as Medicine));
+      case REGISTER_MEDICINE_ROUTE:
+        return MaterialPageRoute(builder: (_) => const RegisterMedicineScreen());
       default:
         return _defaultRoute('404');
     }

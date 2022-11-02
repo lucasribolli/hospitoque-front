@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/auth/auth_bloc.dart';
 import 'package:hospitoque/bloc/search_medicine/search_medicine_bloc.dart';
 import 'package:hospitoque/ui/auth_screen.dart';
+import 'package:hospitoque/ui/home_screen.dart';
 import 'package:hospitoque/ui/routes.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -27,7 +28,7 @@ class HospitoqueApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         onGenerateRoute: (settings) => HospitoqueRouter.generateRoute(settings),
-        home: const AuthScreen(),
+        home: const HomeScreen(),
       ),
     );
   }

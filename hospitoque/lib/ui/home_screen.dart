@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hospitoque/ui/routes.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
@@ -22,61 +25,75 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(flex: 1),
-              Expanded(
+              const Expanded(
                 flex: 28,
-                child: GridView.count(
-                  childAspectRatio: 6 / 5,
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: 2,
-                  children: _items()
-                      .map(
-                        (i) => GestureDetector(
-                          onTap: () {
-                            if (i.isEnabled) {
-                              Navigator.pushNamed(context, i.route!);
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(context.layoutWidth(3)),
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(context.layoutWidth(3)),
-                              color: i.isEnabled
-                                  ? null
-                                  : Theme.of(context).disabledColor,
-                              border: Border.all(
-                                color: Theme.of(context).highlightColor,
-                                width: 1,
-                              ),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  i.icon,
-                                  size: context.layoutHeight(8),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(6.5)),
-                                  child: Text(
-                                    i.text,
-                                    style: Theme.of(context).textTheme.titleSmall,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+                child: _ItemsWidget(),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class _ItemsWidget extends StatelessWidget {
+  const _ItemsWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      childAspectRatio: _itemAspectRatio,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: kIsWeb ? 4 : 2,
+      children: _items()
+          .map(
+            (i) => GestureDetector(
+              onTap: () {
+                if (i.isEnabled) {
+                  Navigator.pushNamed(context, i.route!);
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.all(context.layoutWidth(3)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(context.layoutWidth(3)),
+                  color: i.isEnabled ? null : Theme.of(context).disabledColor,
+                  border: Border.all(
+                    color: Theme.of(context).highlightColor,
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      i.icon,
+                      size: context.layoutHeight(8),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: context.layoutWidth(6)),
+                      child: Text(    
+                        i.text,
+                        style: Theme.of(context).textTheme.titleSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  double get _itemAspectRatio {
+    if(kIsWeb) {
+      return 11 / 10;
+    }
+    return 6 / 5;
   }
 }
 

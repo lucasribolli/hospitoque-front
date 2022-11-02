@@ -4,7 +4,7 @@ class Medicine {
   String manufacturer;
   List<String> composition;
   List<String> variant;
-  String creationDate;
+  String? creationDate;
   int available;
   
   Medicine({
@@ -13,13 +13,13 @@ class Medicine {
     required this.manufacturer,
     required this.composition,
     required this.variant,
-    required this.creationDate,
     required this.available,
+    this.creationDate,
   });
 
   factory Medicine.fromMap(Map<String, dynamic> map) {
     return Medicine(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       name: map['name'] ?? '',
       manufacturer: map['manufacturer'] ?? '',
       composition: List<String>.from(map['composition']),
@@ -32,12 +32,10 @@ class Medicine {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
   
-    result.addAll({'id': id});
     result.addAll({'name': name});
     result.addAll({'manufacturer': manufacturer});
     result.addAll({'composition': composition});
     result.addAll({'variant': variant});
-    result.addAll({'creationDate': creationDate});
     result.addAll({'available': available});
   
     return result;
@@ -46,5 +44,25 @@ class Medicine {
   @override
   String toString() {
     return 'Medicine(id: $id, name: $name, manufacturer: $manufacturer, composition: $composition, variant: $variant, creationDate: $creationDate, available: $available)';
+  }
+
+  Medicine copyWith({
+    String? id,
+    String? name,
+    String? manufacturer,
+    List<String>? composition,
+    List<String>? variant,
+    String? creationDate,
+    int? available,
+  }) {
+    return Medicine(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      manufacturer: manufacturer ?? this.manufacturer,
+      composition: composition ?? this.composition,
+      variant: variant ?? this.variant,
+      creationDate: creationDate ?? this.creationDate,
+      available: available ?? this.available,
+    );
   }
 }

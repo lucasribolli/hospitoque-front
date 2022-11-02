@@ -46,9 +46,9 @@ class MedicineDetails extends StatelessWidget {
               flex: _itemFlex,
               child: _RowDetail(
                 field: 'Disponíveis',
-                value: medicine.name,
+                value: medicine.available.toString(),
               ),
-            ), //TODO fix wrong field
+            ),
           ],
         ),
       ),

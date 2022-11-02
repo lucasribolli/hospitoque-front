@@ -16,9 +16,11 @@ class SearchMedicineBloc extends Bloc<SearchMedicineEvent, SearchMedicineState> 
   Future<void> _onSearchMedicineKeyword(SearchMedicineEventKeyword event, emit) async {
     try {
       String keyword = event.keyword;
-      List<Medicine> medicines = await HospitoqueRepository.getMedicines();
-      debugPrint('medicines with $keyword -> $medicines');
-      emit(state.copyWith(medicines: medicines));
+      if(keyword.isNotEmpty) {
+        List<Medicine> medicines = await HospitoqueRepository.getMedicines(keyword);
+        debugPrint('medicines with $keyword -> $medicines');
+        emit(state.copyWith(medicines: medicines));
+      }
     } on Exception catch(e) {
       debugPrint('error on _onSearchMedicineKeyword: $e');
     }

@@ -45,14 +45,29 @@ class _Medicines extends StatelessWidget {
 
   final _columns = const [
     DataColumn(
-        label: Text('ID'),
+      label: Expanded(
+        child: Text(
+          'ID',
+          textAlign: TextAlign.center,
+        ),
       ),
-      DataColumn(
-        label: Text('Nome'),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Nome',
+          textAlign: TextAlign.center,
+        ),
       ),
-      DataColumn(
-        label: Text('Un. Disp.'),
+    ),
+    DataColumn(
+      label: Expanded(
+        child: Text(
+          'Un. Disp.',
+          textAlign: TextAlign.center,
+        ),
       ),
+    ),
   ];
 
   @override
@@ -62,40 +77,42 @@ class _Medicines extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: context.layoutHeight(5)),
         child: medicines.isNotEmpty
-              ? DataTable(
-                  columnSpacing: context.layoutWidth(_columns.length + 18.toDouble()),
-                  dataRowHeight: context.layoutHeight(10),
-                  border: TableBorder.all(
-                    color: Theme.of(context).highlightColor
-                  ),
-                  columns: _columns,
-                  rows: medicines
-                      .map(
-                        (m) => DataRow(
-                          cells: [
-                            DataCell(
-                              Text(m.id),
-                              onTap: () => _onMedicineTap(context, m),
-                            ),
-                            DataCell(
-                              Text(m.name),
-                              onTap: () => _onMedicineTap(context, m),
-                            ),
-                            DataCell(
-                              Text(m.manufacturer), // TODO FIX WRONG FIELD
-                              onTap: () => _onMedicineTap(context, m),
-                            ),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                )
-              : const _EmptyListState(),
+            ? DataTable(
+                columnSpacing:
+                    context.layoutWidth(_columns.length + 15.toDouble()),
+                dataRowHeight: context.layoutHeight(10),
+                border:
+                    TableBorder.all(color: Theme.of(context).highlightColor),
+                columns: _columns,
+                rows: medicines
+                    .map(
+                      (m) => DataRow(
+                        cells: [
+                          DataCell(
+                            Text(m.id),
+                            onTap: () => _onMedicineTap(context, m),
+                          ),
+                          DataCell(
+                            Text(m.name),
+                            onTap: () => _onMedicineTap(context, m),
+                          ),
+                          DataCell(
+                            Text(m.available.toString()),
+                            onTap: () => _onMedicineTap(context, m),
+                          ),
+                        ],
+                      ),
+                    )
+                    .toList(),
+              )
+            : const _EmptyListState(),
       ),
     );
   }
 
-  void _onMedicineTap(BuildContext c, Medicine m) => Navigator.pushNamed(c, HospitoqueRouter.MEDICINE_DETAILS_ROUTE, arguments: m);
+  void _onMedicineTap(BuildContext c, Medicine m) =>
+      Navigator.pushNamed(c, HospitoqueRouter.MEDICINE_DETAILS_ROUTE,
+          arguments: m);
 }
 
 class _EmptyListState extends StatelessWidget {
@@ -115,7 +132,7 @@ class _EmptyListState extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: const [
               Text(
                 'Pesquise medicamentos por:\n',
                 style: TextStyle(fontWeight: FontWeight.bold),

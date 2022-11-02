@@ -90,8 +90,7 @@ List<_MainScreenItem> _items() => [
       _MainScreenItem(
         text: Constants.LIST_MEDICINE,
         icon: Icons.list,
-        isEnabled: true,
-        route: HospitoqueRouter.LIST_MEDICINES_ROUTE,
+        isEnabled: false,
       ),
       _MainScreenItem(
         text: Constants.REGISTER_CHECK_OUT,
@@ -101,8 +100,7 @@ List<_MainScreenItem> _items() => [
       _MainScreenItem(
         text: Constants.REGISTER_CHECK_IN,
         icon: Icons.download_outlined,
-        isEnabled: true,
-        route: HospitoqueRouter.REGISTER_MEDICINE_CHECK_IN_ROUTE,
+        isEnabled: false,
       ),
       _MainScreenItem(
         text: Constants.CONFIRM_CHECK_IN,

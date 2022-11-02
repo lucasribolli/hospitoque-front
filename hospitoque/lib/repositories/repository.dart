@@ -14,31 +14,32 @@ class HospitoqueRepository {
     return isAuthorized;
   }
 
-  static Future<List<Medicine>> getMedicines() async {
+  static Future<List<Medicine>> getMedicines(String keyword) async {
     var dio = Dio();
-    var response = await dio.get('${Constants.BASE_URL}/medicine');
-    debugPrint('response.data -> ${response.data}');
+    var response = await dio.get('${Constants.BASE_URL}/medicine?q=$keyword');
     List<dynamic> medicinesResponse = response.data;
-    return mockedMedicines();
+    // return mockedMedicines();
     return medicinesResponse.map((m) => Medicine.fromMap(m)).toList();
   }
 }
 
 List<Medicine> mockedMedicines() => [
       Medicine(
-        id: '1235156234',
+        id: '633c1778c3faa00dcc54f2a4',
         name: 'name',
         manufacturer: 'manufacturer',
         composition: ['composition'],
         variant: ['variant'],
         creationDate: 'creationDate',
+        available: 10,
       ),
       Medicine(
-        id: '1235156234',
+        id: '633c1778c3faa00dcc54f5af4',
         name: 'name 2',
         manufacturer: 'manufacturer 2',
         composition: ['composition 1', 'composition 2'],
         variant: ['variant 1', 'variant 2'],
         creationDate: 'creationDate',
+        available: 15,
       ),
     ];

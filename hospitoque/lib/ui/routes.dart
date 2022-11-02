@@ -10,8 +10,6 @@ class HospitoqueRouter {
   static const HOME_ROUTE = '/home';
   static const SEARCH_MEDICINE_ROUTE = '/search-medicine';
   static const MEDICINE_DETAILS_ROUTE = '/medicine-details';
-  static const LIST_MEDICINES_ROUTE = '/list-medicines';
-  static const REGISTER_MEDICINE_CHECK_IN_ROUTE = '/check-in-medicine';
   static const REGISTER_MEDICINE_ROUTE = '/register-medicine';
   static const DISCARD_MEDICINE_ROUTE = '/discard-medicine';
   static const EDIT_MEDICINE_ROUTE = '/edit-medicine';

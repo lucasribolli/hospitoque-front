@@ -7,6 +7,7 @@ class Medicine {
   List<String> composition;
   List<String> variant;
   String creationDate;
+  int available;
   
   Medicine({
     required this.id,
@@ -15,6 +16,7 @@ class Medicine {
     required this.composition,
     required this.variant,
     required this.creationDate,
+    required this.available,
   });
 
   factory Medicine.fromMap(Map<String, dynamic> map) {
@@ -25,6 +27,7 @@ class Medicine {
       composition: List<String>.from(map['composition']),
       variant: List<String>.from(map['variant']),
       creationDate: map['creationDate'] ?? '',
+      available: map['available'] ?? 0,
     );
   }
 

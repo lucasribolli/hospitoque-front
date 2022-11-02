@@ -35,18 +35,10 @@ List<Medicine> mockedMedicines() => [
       ),
       Medicine(
         id: '1235156234',
-        name: 'name',
-        manufacturer: 'manufacturer',
-        composition: ['composition'],
-        variant: ['variant'],
-        creationDate: 'creationDate',
-      ),
-      Medicine(
-        id: '1235156234',
-        name: 'name',
-        manufacturer: 'manufacturer',
-        composition: ['composition'],
-        variant: ['variant'],
+        name: 'name 2',
+        manufacturer: 'manufacturer 2',
+        composition: ['composition 1', 'composition 2'],
+        variant: ['variant 1', 'variant 2'],
         creationDate: 'creationDate',
       ),
     ];

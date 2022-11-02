@@ -7,6 +7,7 @@ import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
 import 'package:hospitoque/ui/hospitoque_decorations.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
+import 'package:hospitoque/ui/routes.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 
 class SearchMedicineScreen extends StatelessWidget {
@@ -74,15 +75,15 @@ class _Medicines extends StatelessWidget {
                           cells: [
                             DataCell(
                               Text(m.id),
-                              onTap: () => _onMedicineTap(m),
+                              onTap: () => _onMedicineTap(context, m),
                             ),
                             DataCell(
                               Text(m.name),
-                              onTap: () => _onMedicineTap(m),
+                              onTap: () => _onMedicineTap(context, m),
                             ),
                             DataCell(
-                              Text(m.manufacturer),
-                              onTap: () => _onMedicineTap(m),
+                              Text(m.manufacturer), // TODO FIX WRONG FIELD
+                              onTap: () => _onMedicineTap(context, m),
                             ),
                           ],
                         ),
@@ -94,7 +95,7 @@ class _Medicines extends StatelessWidget {
     );
   }
 
-  void _onMedicineTap(Medicine m) => debugPrint('medicine tapped -> $m');
+  void _onMedicineTap(BuildContext c, Medicine m) => Navigator.pushNamed(c, HospitoqueRouter.MEDICINE_DETAILS_ROUTE, arguments: m);
 }
 
 class _EmptyListState extends StatelessWidget {

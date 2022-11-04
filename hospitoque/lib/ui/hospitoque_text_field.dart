@@ -8,6 +8,7 @@ class HospitoqueTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputAction? inputAction;
   final Widget? suffixIcon;
+  final bool enabled;
 
   const HospitoqueTextField({
     Key? key,
@@ -18,6 +19,7 @@ class HospitoqueTextField extends StatelessWidget {
     this.controller,
     this.inputAction,
     this.suffixIcon,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class HospitoqueTextField extends StatelessWidget {
     return TextField(
       autofocus: autofocus,
       controller: controller,
+      enabled: enabled,
       decoration: InputDecoration(
         hintText: hintText,
         border: InputBorder.none,

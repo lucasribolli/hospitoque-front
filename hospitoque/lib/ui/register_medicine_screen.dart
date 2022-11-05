@@ -21,7 +21,7 @@ class RegisterMedicineScreen extends StatelessWidget {
         builder: (context, state) {
           return Container(
             margin: EdgeInsets.symmetric(
-              horizontal: context.layoutWidth(7),
+              horizontal: context.layoutWidth(context.isLargeWidth ? 25 : 7),
               vertical: context.layoutHeight(2),
             ),
             child: ListView(
@@ -104,6 +104,7 @@ class _SimpleField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(name),
+        SizedBox(height: context.layoutHeight(1.5),),
         HospitoqueTextField(
           autofocus: false,
           hintText: hintText,
@@ -136,6 +137,7 @@ class _ListFields extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(name),
+        SizedBox(height: context.layoutHeight(1.5),),
         ...fields.map((field) {
           return _ListFieldItem(
             key: Key(field.id!),

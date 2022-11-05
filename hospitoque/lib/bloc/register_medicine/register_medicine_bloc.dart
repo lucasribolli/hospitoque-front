@@ -7,36 +7,37 @@ part 'register_medicine_state.dart';
 class RegisterMedicineBloc
     extends Bloc<RegisterMedicineEvent, RegisterMedicineState> {
   RegisterMedicineBloc() : super(_getInitialState()) {
-    on<RegisterMedicineResetEvent>(onResetEvent);
-    on<RegisterMedicineChangeNameEvent>(onChangeNameEvent);
-    on<RegisterMedicineChangeManufacturerEvent>(onChangeManufacturerEvent);
-    on<RegisterMedicineChangeLastCompositionEvent>(
-        onChangeLastCompositionEvent);
-    on<RegisterMedicineAddCompositionEvent>(onAddCompositionEvent);
-    on<RegisterMedicineDeleteCompositionEvent>(onDeleteCompositionEvent);
-    on<RegisterMedicineChangeLastVariantEvent>(
-        onChangeLastCompositionEvent);
-    on<RegisterMedicineAddVariantEvent>(onAddCompositionEvent);
-    on<RegisterMedicineDeleteVariantEvent>(onDeleteCompositionEvent);
+    on<ResetRegisterMedicineEvent>(onResetEvent);
+    on<ChangeNameRegisterMedicineEvent>(onChangeNameEvent);
+    on<ChangeManufacturerRegisterMedicineEvent>(onChangeManufacturerEvent);
+    on<ChangeLastCompositionRegisterMedicineEvent>(
+        onChangeLastItemEvent);
+    on<AddCompositionRegisterMedicineEvent>(onAddEvent);
+    on<DeleteCompositionRegisterMedicineEvent>(onDeleteEvent);
+    on<ChangeLastVariantRegisterMedicineEvent>(
+        onChangeLastItemEvent);
+    on<AddVariantRegisterMedicineEvent>(onAddEvent);
+    on<DeleteVariantRegisterMedicineEvent>(onDeleteEvent);
   }
 
   void onResetEvent(
-      RegisterMedicineResetEvent event, Emitter<RegisterMedicineState> emit) {
+      ResetRegisterMedicineEvent event, Emitter<RegisterMedicineState> emit) {
     emit(_getInitialState());
   }
 
-  void onChangeNameEvent(RegisterMedicineChangeNameEvent event, emit) {
+  void onChangeNameEvent(ChangeNameRegisterMedicineEvent event, emit) {
     emit(state.copyWith(name: event.name));
   }
 
   void onChangeManufacturerEvent(
-      RegisterMedicineChangeManufacturerEvent event, emit) {
+      ChangeManufacturerRegisterMedicineEvent event, emit) {
     emit(state.copyWith(manufacturer: event.manufacturer));
   }
 
-  void onChangeLastCompositionEvent(event, emit) {
+  void onChangeLastItemEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
-    if(event is RegisterMedicineChangeLastCompositionEvent) {
+    var isComposition = event is ChangeLastCompositionRegisterMedicineEvent;
+    if(isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
@@ -44,12 +45,17 @@ class RegisterMedicineBloc
     RegisterMedicineField<String> updated = list.last.copyWith(value: event.value);
     list.removeLast();
     list.add(updated);
-    emit(state.copyWith(composition: list));
+    var newState = state.copyWith(
+      composition: isComposition ? list : state.composition,
+      variant: !isComposition ? list : state.variant,
+    );
+    emit(newState);
   }
 
-  void onAddCompositionEvent(event, emit) {
+  void onAddEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
-    if(event is RegisterMedicineAddCompositionEvent) {
+    var isComposition = event is AddCompositionRegisterMedicineEvent;
+    if(isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
@@ -61,25 +67,33 @@ class RegisterMedicineBloc
     RegisterMedicineField<String> updated = last.copyWith(enabled: false);
     list.removeLast();
     list.add(updated);
-    RegisterMedicineField<String> freshComposition =
+    RegisterMedicineField<String> freshItem =
         RegisterMedicineField<String>.initial(
       '',
       id: DateTime.now().millisecondsSinceEpoch.toString(),
     );
-    list.add(freshComposition);
-    emit(state.copyWith(composition: list));
+    list.add(freshItem);
+    var newState = state.copyWith(
+      composition: isComposition ? list : state.composition,
+      variant: !isComposition ? list : state.variant,
+    );
+    emit(newState);
   }
 
-  void onDeleteCompositionEvent(event, emit) {
+  void onDeleteEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
-    if(event is RegisterMedicineDeleteCompositionEvent) {
+    var isComposition = event is DeleteCompositionRegisterMedicineEvent;
+    if(isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
     }
-    var composition = state.composition;
     list.remove(event.field);
-    emit(state.copyWith(composition: composition));
+    var newState = state.copyWith(
+      composition: isComposition ? list : state.composition,
+      variant: !isComposition ? list : state.variant,
+    );
+    emit(newState);
   }
 }
 

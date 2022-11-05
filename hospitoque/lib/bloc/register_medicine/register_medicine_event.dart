@@ -3,46 +3,46 @@ part of 'register_medicine_bloc.dart';
 @immutable
 abstract class RegisterMedicineEvent {}
 
-class RegisterMedicineResetEvent implements RegisterMedicineEvent {}
+class ResetRegisterMedicineEvent implements RegisterMedicineEvent {}
 
-class RegisterMedicineChangeNameEvent implements RegisterMedicineEvent {
+class ChangeNameRegisterMedicineEvent implements RegisterMedicineEvent {
   final String name;
 
-  RegisterMedicineChangeNameEvent(this.name);
+  ChangeNameRegisterMedicineEvent(this.name);
 }
 
-class RegisterMedicineChangeManufacturerEvent implements RegisterMedicineEvent {
+class ChangeManufacturerRegisterMedicineEvent implements RegisterMedicineEvent {
   final String manufacturer;
 
-  RegisterMedicineChangeManufacturerEvent(this.manufacturer);
+  ChangeManufacturerRegisterMedicineEvent(this.manufacturer);
 }
 
 // Composition events
-class RegisterMedicineChangeLastCompositionEvent implements RegisterMedicineEvent {
+class ChangeLastCompositionRegisterMedicineEvent implements RegisterMedicineEvent {
   final String value;
 
-  RegisterMedicineChangeLastCompositionEvent(this.value);
+  ChangeLastCompositionRegisterMedicineEvent(this.value);
 }
 
-class RegisterMedicineAddCompositionEvent implements RegisterMedicineEvent {}
+class AddCompositionRegisterMedicineEvent implements RegisterMedicineEvent {}
 
-class RegisterMedicineDeleteCompositionEvent implements RegisterMedicineEvent {
+class DeleteCompositionRegisterMedicineEvent implements RegisterMedicineEvent {
   final RegisterMedicineField field;
 
-  RegisterMedicineDeleteCompositionEvent(this.field);
+  DeleteCompositionRegisterMedicineEvent(this.field);
 }
 
 // Variant events
-class RegisterMedicineChangeLastVariantEvent implements RegisterMedicineEvent {
+class ChangeLastVariantRegisterMedicineEvent implements RegisterMedicineEvent {
   final String value;
 
-  RegisterMedicineChangeLastVariantEvent(this.value);
+  ChangeLastVariantRegisterMedicineEvent(this.value);
 }
 
-class RegisterMedicineAddVariantEvent implements RegisterMedicineEvent {}
+class AddVariantRegisterMedicineEvent implements RegisterMedicineEvent {}
 
-class RegisterMedicineDeleteVariantEvent implements RegisterMedicineEvent {
+class DeleteVariantRegisterMedicineEvent implements RegisterMedicineEvent {
   final RegisterMedicineField field;
 
-  RegisterMedicineDeleteVariantEvent(this.field);
+  DeleteVariantRegisterMedicineEvent(this.field);
 }

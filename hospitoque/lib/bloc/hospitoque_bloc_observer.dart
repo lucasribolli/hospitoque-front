@@ -13,7 +13,7 @@ class HospitoqueBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase bloc, Change change) {
     super.onChange(bloc, change);
-    debugPrint('$_TAG onChange: ${bloc.runtimeType}, $change');
+    debugPrint('$_TAG onChange: ${bloc.runtimeType}, ${change.nextState}');
   }
 
   @override

@@ -4,9 +4,12 @@ import 'package:hospitoque/bloc/register_medicine/register_medicine_bloc.dart';
 import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
+import 'package:hospitoque/ui/ui_extensions.dart';
 
 class RegisterMedicineScreen extends StatelessWidget {
   const RegisterMedicineScreen({Key? key}) : super(key: key);
+
+  final double _verticalItemsSpacer = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -16,53 +19,66 @@ class RegisterMedicineScreen extends StatelessWidget {
       title: Constants.REGISTER_MEDICINE,
       child: BlocBuilder<RegisterMedicineBloc, RegisterMedicineState>(
         builder: (context, state) {
-          return Column(
-            children: [
-              _SimpleField(
-                name: 'Nome do Medicamento*',
-                hintText: 'Tylenol...',
-                onChangeText: (value) =>
-                    BlocProvider.of<RegisterMedicineBloc>(context)
-                        .add(ChangeNameRegisterMedicineEvent(value)),
-              ),
-              _SimpleField(
-                name: 'Fabricante*',
-                hintText: 'Johnson & Johnson...',
-                onChangeText: (value) =>
-                    BlocProvider.of<RegisterMedicineBloc>(context)
-                        .add(ChangeManufacturerRegisterMedicineEvent(value)),
-              ),
-              _ListFields(
-                name: 'Composição:*',
-                fields: state.composition,
-                onButtonClick: (field) {
-                  var event = field.enabled
-                      ? AddCompositionRegisterMedicineEvent()
-                      : DeleteCompositionRegisterMedicineEvent(field);
-                  BlocProvider.of<RegisterMedicineBloc>(context, listen: false)
-                      .add(event);
-                },
-                onChangeText: (value) =>
-                    BlocProvider.of<RegisterMedicineBloc>(context).add(
-                  ChangeLastCompositionRegisterMedicineEvent(value),
+          return Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: context.layoutWidth(7),
+              vertical: context.layoutHeight(2),
+            ),
+            child: ListView(
+              children: [
+                _SimpleField(
+                  name: 'Nome do Medicamento*',
+                  hintText: 'Tylenol...',
+                  onChangeText: (value) =>
+                      BlocProvider.of<RegisterMedicineBloc>(context)
+                          .add(ChangeNameRegisterMedicineEvent(value)),
                 ),
-              ),
-              _ListFields(
-                name: 'Variante(s):*',
-                fields: state.variant,
-                onButtonClick: (field) {
-                  var event = field.enabled
-                      ? AddVariantRegisterMedicineEvent()
-                      : DeleteVariantRegisterMedicineEvent(field);
-                  BlocProvider.of<RegisterMedicineBloc>(context, listen: false)
-                      .add(event);
-                },
-                onChangeText: (value) =>
-                    BlocProvider.of<RegisterMedicineBloc>(context).add(
-                  ChangeLastVariantRegisterMedicineEvent(value),
+                SizedBox(height: context.layoutHeight(_verticalItemsSpacer)),
+                _SimpleField(
+                  name: 'Fabricante*',
+                  hintText: 'Johnson & Johnson...',
+                  onChangeText: (value) =>
+                      BlocProvider.of<RegisterMedicineBloc>(context)
+                          .add(ChangeManufacturerRegisterMedicineEvent(value)),
                 ),
-              ),
-            ],
+                SizedBox(height: context.layoutHeight(_verticalItemsSpacer)),
+                _ListFields(
+                  name: 'Composição:*',
+                  hint: 'Placetamol...',
+                  fields: state.composition,
+                  onButtonClick: (field) {
+                    var event = field.enabled
+                        ? AddCompositionRegisterMedicineEvent()
+                        : DeleteCompositionRegisterMedicineEvent(field);
+                    BlocProvider.of<RegisterMedicineBloc>(context,
+                            listen: false)
+                        .add(event);
+                  },
+                  onChangeText: (value) =>
+                      BlocProvider.of<RegisterMedicineBloc>(context).add(
+                    ChangeLastCompositionRegisterMedicineEvent(value),
+                  ),
+                ),
+                SizedBox(height: context.layoutHeight(_verticalItemsSpacer)),
+                _ListFields(
+                  name: 'Variante(s):*',
+                  hint: '500mg',
+                  fields: state.variant,
+                  onButtonClick: (field) {
+                    var event = field.enabled
+                        ? AddVariantRegisterMedicineEvent()
+                        : DeleteVariantRegisterMedicineEvent(field);
+                    BlocProvider.of<RegisterMedicineBloc>(context,
+                            listen: false)
+                        .add(event);
+                  },
+                  onChangeText: (value) =>
+                      BlocProvider.of<RegisterMedicineBloc>(context).add(
+                    ChangeLastVariantRegisterMedicineEvent(value),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
@@ -100,6 +116,7 @@ class _SimpleField extends StatelessWidget {
 
 class _ListFields extends StatelessWidget {
   final String name;
+  final String hint;
   final List<RegisterMedicineField> fields;
   final void Function(String text) onChangeText;
   final void Function(RegisterMedicineField field) onButtonClick;
@@ -110,6 +127,7 @@ class _ListFields extends StatelessWidget {
     required this.name,
     required this.onChangeText,
     required this.onButtonClick,
+    required this.hint,
   }) : super(key: key);
 
   @override
@@ -121,7 +139,7 @@ class _ListFields extends StatelessWidget {
         ...fields.map((field) {
           return _ListFieldItem(
             key: Key(field.id!),
-            hintText: 'Placetamol...',
+            hintText: hint,
             icon: field.enabled ? Icons.add : Icons.delete,
             isEnabled: field.enabled,
             onButtonPressed: () => onButtonClick(field),
@@ -154,7 +172,7 @@ class _ListFieldItem extends StatelessWidget {
     return Row(
       children: [
         Flexible(
-          flex: 7,
+          flex: 10,
           child: HospitoqueTextField(
             autofocus: false,
             hintText: hintText,
@@ -162,8 +180,9 @@ class _ListFieldItem extends StatelessWidget {
             enabled: isEnabled,
           ),
         ),
+        Spacer(flex: 1),
         Flexible(
-          flex: 1,
+          flex: 2,
           child: IconButton(
             icon: Icon(icon),
             onPressed: onButtonPressed,

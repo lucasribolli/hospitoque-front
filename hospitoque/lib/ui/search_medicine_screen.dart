@@ -43,32 +43,7 @@ class _Medicines extends StatelessWidget {
   final List<Medicine> medicines;
   const _Medicines({Key? key, required this.medicines}) : super(key: key);
 
-  final _columns = const [
-    DataColumn(
-      label: Expanded(
-        child: Text(
-          'ID',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-    DataColumn(
-      label: Expanded(
-        child: Text(
-          'Nome',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-    DataColumn(
-      label: Expanded(
-        child: Text(
-          'Un. Disp.',
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-  ];
+  final int _columnFlex = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -77,33 +52,66 @@ class _Medicines extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: context.layoutHeight(5)),
         child: medicines.isNotEmpty
-            ? DataTable(
-                columnSpacing:
-                    context.layoutWidth(_columns.length + 15.toDouble()),
-                dataRowHeight: context.layoutHeight(10),
-                border:
-                    TableBorder.all(color: Theme.of(context).highlightColor),
-                columns: _columns,
-                rows: medicines
-                    .map(
-                      (m) => DataRow(
-                        cells: [
-                          DataCell(
-                            Text(m.id!),
-                            onTap: () => _onMedicineTap(context, m),
-                          ),
-                          DataCell(
-                            Text(m.name),
-                            onTap: () => _onMedicineTap(context, m),
-                          ),
-                          DataCell(
-                            Text(m.available.toString()),
-                            onTap: () => _onMedicineTap(context, m),
-                          ),
-                        ],
+            ? Column(
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        flex: _columnFlex,
+                        child: Text(
+                          'ID',
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    )
-                    .toList(),
+                      Expanded(
+                        flex: _columnFlex,
+                        child: Text(
+                          'Nome',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        flex: _columnFlex,
+                        child: Text(
+                          'Un. Disp.',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  ...medicines
+                      .map(
+                        (m) => GestureDetector(
+                          onTap: () => _onMedicineTap(context, m),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                flex: _columnFlex,
+                                child: _TableItem(
+                                  value: m.id!,
+                                ),
+                              ),
+                              Expanded(
+                                flex: _columnFlex,
+                                child: _TableItem(
+                                  value: m.name,
+                                ),
+                              ),
+                              Expanded(
+                                flex: _columnFlex,
+                                child: _TableItem(
+                                  value: m.available.toString(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                      .toList()
+                ],
               )
             : const _EmptyListState(),
       ),
@@ -113,6 +121,27 @@ class _Medicines extends StatelessWidget {
   void _onMedicineTap(BuildContext c, Medicine m) =>
       Navigator.pushNamed(c, HospitoqueRouter.MEDICINE_DETAILS_ROUTE,
           arguments: m);
+}
+
+class _TableItem extends StatelessWidget {
+  const _TableItem({Key? key, required this.value}) : super(key: key);
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: context.layoutHeight(6),
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).highlightColor),
+      ),
+      child: Center(
+        child: Text(
+          value,
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
 }
 
 class _EmptyListState extends StatelessWidget {

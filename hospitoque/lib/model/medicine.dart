@@ -1,19 +1,19 @@
 class Medicine {
-  String id;
+  String? id;
   String name;
   String manufacturer;
   List<String> composition;
   List<String> variant;
   String? creationDate;
   int available;
-  
+
   Medicine({
-    required this.id,
     required this.name,
     required this.manufacturer,
     required this.composition,
     required this.variant,
     required this.available,
+    this.id,
     this.creationDate,
   });
 
@@ -31,13 +31,13 @@ class Medicine {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-  
+
     result.addAll({'name': name});
     result.addAll({'manufacturer': manufacturer});
     result.addAll({'composition': composition});
     result.addAll({'variant': variant});
     result.addAll({'available': available});
-  
+
     return result;
   }
 

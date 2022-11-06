@@ -89,7 +89,7 @@ class _Medicines extends StatelessWidget {
                       (m) => DataRow(
                         cells: [
                           DataCell(
-                            Text(m.id),
+                            Text(m.id!),
                             onTap: () => _onMedicineTap(context, m),
                           ),
                           DataCell(

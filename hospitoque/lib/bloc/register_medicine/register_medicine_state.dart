@@ -5,6 +5,8 @@ class RegisterMedicineState {
   final String manufacturer;
   final List<RegisterMedicineField<String>> composition;
   final List<RegisterMedicineField<String>> variant;
+  final RegisterMedicineCurrentStatus status;
+  final Medicine? medicine;
 
   factory RegisterMedicineState.initial() {
     return RegisterMedicineState(
@@ -16,6 +18,7 @@ class RegisterMedicineState {
       variant: [
         RegisterMedicineField.initial(''),
       ],
+      status: RegisterMedicineCurrentStatus.initial,
     );
   }
 
@@ -24,6 +27,8 @@ class RegisterMedicineState {
     required this.manufacturer,
     required this.composition,
     required this.variant,
+    required this.status,
+    this.medicine,
   });
 
   RegisterMedicineState copyWith({
@@ -31,12 +36,16 @@ class RegisterMedicineState {
     String? manufacturer,
     List<RegisterMedicineField<String>>? composition,
     List<RegisterMedicineField<String>>? variant,
+    RegisterMedicineCurrentStatus? status,
+    Medicine? medicine,
   }) {
     return RegisterMedicineState(
       name: name ?? this.name,
       manufacturer: manufacturer ?? this.manufacturer,
       composition: composition ?? this.composition,
       variant: variant ?? this.variant,
+      status: status ?? this.status,
+      medicine: medicine ?? this.medicine,
     );
   }
 
@@ -83,3 +92,5 @@ class RegisterMedicineField<T> {
   String toString() =>
       'RegisterMedicineField(value: $value, enabled: $enabled, id: $id)';
 }
+
+enum RegisterMedicineCurrentStatus { initial, confirmation, successful }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hospitoque/model/medicine.dart';
 import 'package:hospitoque/ui/auth_screen.dart';
 import 'package:hospitoque/ui/home_screen.dart';
-import 'package:hospitoque/ui/medicine_details.dart';
+import 'package:hospitoque/ui/medicine_details_screen.dart';
 import 'package:hospitoque/ui/register_medicine_screen.dart';
 import 'package:hospitoque/ui/search_medicine_screen.dart';
 
@@ -24,7 +24,7 @@ class HospitoqueRouter {
       case SEARCH_MEDICINE_ROUTE:
         return MaterialPageRoute(builder: (_) => const SearchMedicineScreen());
       case MEDICINE_DETAILS_ROUTE:
-        return MaterialPageRoute(builder: (_) => MedicineDetails(medicine: settings.arguments as Medicine));
+        return MaterialPageRoute(builder: (_) => MedicineDetailsScreen(medicine: settings.arguments as Medicine));
       case REGISTER_MEDICINE_ROUTE:
         return MaterialPageRoute(builder: (_) => const RegisterMedicineScreen());
       default:

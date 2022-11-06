@@ -46,3 +46,9 @@ class DeleteVariantRegisterMedicineEvent implements RegisterMedicineEvent {
 
   DeleteVariantRegisterMedicineEvent(this.field);
 }
+
+class NextClickRegisterMedicineEvent implements RegisterMedicineEvent {
+  final BuildContext? context;
+
+  NextClickRegisterMedicineEvent({this.context});
+}

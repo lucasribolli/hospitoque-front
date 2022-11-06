@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart'
+    show Navigator, BuildContext, debugPrint, immutable;
+import 'package:hospitoque/model/medicine.dart';
+import 'package:hospitoque/repositories/repository.dart';
+import 'package:hospitoque/ui/routes.dart';
 
 part 'register_medicine_event.dart';
 part 'register_medicine_state.dart';
@@ -7,42 +11,42 @@ part 'register_medicine_state.dart';
 class RegisterMedicineBloc
     extends Bloc<RegisterMedicineEvent, RegisterMedicineState> {
   RegisterMedicineBloc() : super(_getInitialState()) {
-    on<ResetRegisterMedicineEvent>(onResetEvent);
-    on<ChangeNameRegisterMedicineEvent>(onChangeNameEvent);
-    on<ChangeManufacturerRegisterMedicineEvent>(onChangeManufacturerEvent);
-    on<ChangeLastCompositionRegisterMedicineEvent>(
-        onChangeLastItemEvent);
-    on<AddCompositionRegisterMedicineEvent>(onAddEvent);
-    on<DeleteCompositionRegisterMedicineEvent>(onDeleteEvent);
-    on<ChangeLastVariantRegisterMedicineEvent>(
-        onChangeLastItemEvent);
-    on<AddVariantRegisterMedicineEvent>(onAddEvent);
-    on<DeleteVariantRegisterMedicineEvent>(onDeleteEvent);
+    on<ResetRegisterMedicineEvent>(_onResetEvent);
+    on<ChangeNameRegisterMedicineEvent>(_onChangeNameEvent);
+    on<ChangeManufacturerRegisterMedicineEvent>(_onChangeManufacturerEvent);
+    on<ChangeLastCompositionRegisterMedicineEvent>(_onChangeLastItemEvent);
+    on<AddCompositionRegisterMedicineEvent>(_onAddEvent);
+    on<DeleteCompositionRegisterMedicineEvent>(_onDeleteEvent);
+    on<ChangeLastVariantRegisterMedicineEvent>(_onChangeLastItemEvent);
+    on<AddVariantRegisterMedicineEvent>(_onAddEvent);
+    on<DeleteVariantRegisterMedicineEvent>(_onDeleteEvent);
+    on<NextClickRegisterMedicineEvent>(_onNextStatus);
   }
 
-  void onResetEvent(
+  void _onResetEvent(
       ResetRegisterMedicineEvent event, Emitter<RegisterMedicineState> emit) {
     emit(_getInitialState());
   }
 
-  void onChangeNameEvent(ChangeNameRegisterMedicineEvent event, emit) {
+  void _onChangeNameEvent(ChangeNameRegisterMedicineEvent event, emit) {
     emit(state.copyWith(name: event.name));
   }
 
-  void onChangeManufacturerEvent(
+  void _onChangeManufacturerEvent(
       ChangeManufacturerRegisterMedicineEvent event, emit) {
     emit(state.copyWith(manufacturer: event.manufacturer));
   }
 
-  void onChangeLastItemEvent(event, emit) {
+  void _onChangeLastItemEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
     var isComposition = event is ChangeLastCompositionRegisterMedicineEvent;
-    if(isComposition) {
+    if (isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
     }
-    RegisterMedicineField<String> updated = list.last.copyWith(value: event.value);
+    RegisterMedicineField<String> updated =
+        list.last.copyWith(value: event.value);
     list.removeLast();
     list.add(updated);
     var newState = state.copyWith(
@@ -52,10 +56,10 @@ class RegisterMedicineBloc
     emit(newState);
   }
 
-  void onAddEvent(event, emit) {
+  void _onAddEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
     var isComposition = event is AddCompositionRegisterMedicineEvent;
-    if(isComposition) {
+    if (isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
@@ -80,10 +84,10 @@ class RegisterMedicineBloc
     emit(newState);
   }
 
-  void onDeleteEvent(event, emit) {
+  void _onDeleteEvent(event, emit) {
     List<RegisterMedicineField<String>> list;
     var isComposition = event is DeleteCompositionRegisterMedicineEvent;
-    if(isComposition) {
+    if (isComposition) {
       list = state.composition;
     } else {
       list = state.variant;
@@ -94,6 +98,73 @@ class RegisterMedicineBloc
       variant: !isComposition ? list : state.variant,
     );
     emit(newState);
+  }
+
+  Future<void> _onNextStatus(event, emit) async {
+    switch (state.status) {
+      case RegisterMedicineCurrentStatus.initial:
+        _onNextOfInitialStatus(emit);
+        break;
+      case RegisterMedicineCurrentStatus.confirmation:
+        await _onNextOfConfirmationStatus(emit);
+        break;
+      case RegisterMedicineCurrentStatus.successful:
+        _onNextOfSucessfulStatus(event, emit);
+        break;
+    }
+  }
+
+  void _onNextOfInitialStatus(Emitter<RegisterMedicineState> emit) {
+    bool isValid = _verifyFields();
+    debugPrint('isValid -> $isValid');
+    // TODO add validation
+    if (!isValid) {
+      return;
+    }
+    // TODO verify available mocked value
+    Medicine medicine = Medicine(
+      available: 0,
+      composition: state.composition
+          .where((field) => !field.enabled)
+          .map((c) => c.value)
+          .toList(),
+      variant: state.composition
+          .where((field) => !field.enabled)
+          .map((v) => v.value)
+          .toList(),
+      name: state.name,
+      manufacturer: state.manufacturer,
+    );
+    emit(state.copyWith(
+      status: RegisterMedicineCurrentStatus.confirmation,
+      medicine: medicine,
+    ));
+  }
+
+  bool _verifyFields() {
+    if (state.name.isEmpty ||
+        state.manufacturer.isEmpty ||
+        state.composition.isEmpty ||
+        state.variant.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _onNextOfConfirmationStatus(
+      Emitter<RegisterMedicineState> emit) async {
+    await HospitoqueRepository.addMedicine(state.medicine!);
+    emit(state.copyWith(status: RegisterMedicineCurrentStatus.successful));
+  }
+
+  void _onNextOfSucessfulStatus(
+    NextClickRegisterMedicineEvent event,
+    Emitter<RegisterMedicineState> emit,
+  ) {
+    Navigator.of(event.context!).pushNamedAndRemoveUntil(
+      HospitoqueRouter.HOME_ROUTE,
+      (route) => false,
+    );
   }
 }
 

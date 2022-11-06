@@ -21,6 +21,15 @@ class HospitoqueRepository {
     // return mockedMedicines();
     return medicinesResponse.map((m) => Medicine.fromMap(m)).toList();
   }
+
+  static Future<void> addMedicine(Medicine medicine) async {
+    var dio = Dio();
+    var response = await dio.post(
+      '${Constants.BASE_URL}/medicine',
+      data: medicine.toMap(),
+    );
+    debugPrint('addMedicine response -> ${response.data}');
+  }
 }
 
 List<Medicine> mockedMedicines() => [

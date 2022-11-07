@@ -14,6 +14,7 @@ class RegisterMedicineBloc
     on<ResetRegisterMedicineEvent>(_onResetEvent);
     on<ChangeNameRegisterMedicineEvent>(_onChangeNameEvent);
     on<ChangeManufacturerRegisterMedicineEvent>(_onChangeManufacturerEvent);
+    on<ChangeAvailableRegisterMedicineEvent>(_onChangeAvailableEvent);
     on<ChangeLastCompositionRegisterMedicineEvent>(_onChangeLastItemEvent);
     on<AddCompositionRegisterMedicineEvent>(_onAddEvent);
     on<DeleteCompositionRegisterMedicineEvent>(_onDeleteEvent);
@@ -35,6 +36,12 @@ class RegisterMedicineBloc
   void _onChangeManufacturerEvent(
       ChangeManufacturerRegisterMedicineEvent event, emit) {
     emit(state.copyWith(manufacturer: event.manufacturer));
+  }
+
+  void _onChangeAvailableEvent(
+    ChangeAvailableRegisterMedicineEvent event, emit
+  ) {
+    emit(state.copyWith(available: event.available));
   }
 
   void _onChangeLastItemEvent(event, emit) {
@@ -121,9 +128,8 @@ class RegisterMedicineBloc
     if (!isValid) {
       return;
     }
-    // TODO verify available mocked value
     Medicine medicine = Medicine(
-      available: 0,
+      available: int.tryParse(state.available) ?? 0,
       composition: state.composition
           .where((field) => !field.enabled)
           .map((c) => c.value)

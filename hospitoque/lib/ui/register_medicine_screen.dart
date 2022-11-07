@@ -53,6 +53,16 @@ class RegisterMedicineScreen extends StatelessWidget {
                         ),
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
+                        _SimpleField(
+                          name: 'Unidades disponíveis*',
+                          hintText: '8',
+                          onChangeText: (value) =>
+                              BlocProvider.of<RegisterMedicineBloc>(context)
+                                  .add(ChangeAvailableRegisterMedicineEvent(
+                                      value)),
+                        ),
+                        SizedBox(
+                            height: context.layoutHeight(_verticalItemsSpacer)),
                         _ListFields(
                           name: 'Composição:*',
                           hint: 'Placetamol...',

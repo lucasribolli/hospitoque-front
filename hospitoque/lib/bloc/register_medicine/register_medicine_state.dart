@@ -3,6 +3,7 @@ part of 'register_medicine_bloc.dart';
 class RegisterMedicineState {
   final String name;
   final String manufacturer;
+  final String available;
   final List<RegisterMedicineField<String>> composition;
   final List<RegisterMedicineField<String>> variant;
   final RegisterMedicineCurrentStatus status;
@@ -12,6 +13,7 @@ class RegisterMedicineState {
     return RegisterMedicineState(
       name: '',
       manufacturer: '',
+      available: '0',
       composition: [
         RegisterMedicineField.initial(''),
       ],
@@ -25,6 +27,7 @@ class RegisterMedicineState {
   RegisterMedicineState({
     required this.name,
     required this.manufacturer,
+    required this.available,
     required this.composition,
     required this.variant,
     required this.status,
@@ -34,6 +37,7 @@ class RegisterMedicineState {
   RegisterMedicineState copyWith({
     String? name,
     String? manufacturer,
+    String? available,
     List<RegisterMedicineField<String>>? composition,
     List<RegisterMedicineField<String>>? variant,
     RegisterMedicineCurrentStatus? status,
@@ -43,6 +47,7 @@ class RegisterMedicineState {
       name: name ?? this.name,
       manufacturer: manufacturer ?? this.manufacturer,
       composition: composition ?? this.composition,
+      available: available ?? this.available,
       variant: variant ?? this.variant,
       status: status ?? this.status,
       medicine: medicine ?? this.medicine,

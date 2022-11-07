@@ -17,6 +17,12 @@ class ChangeManufacturerRegisterMedicineEvent implements RegisterMedicineEvent {
   ChangeManufacturerRegisterMedicineEvent(this.manufacturer);
 }
 
+class ChangeAvailableRegisterMedicineEvent implements RegisterMedicineEvent {
+  final String available;
+
+  ChangeAvailableRegisterMedicineEvent(this.available);
+}
+
 // Composition events
 class ChangeLastCompositionRegisterMedicineEvent implements RegisterMedicineEvent {
   final String value;

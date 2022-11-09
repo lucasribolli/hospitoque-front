@@ -62,13 +62,15 @@ class _RowDetail extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          '$field: ',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+        Flexible(
+          child: Text(
+            '$field: ',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        Text(value),
+        Flexible(child: Text(value)),
       ],
     );
   }

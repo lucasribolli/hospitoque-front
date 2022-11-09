@@ -12,7 +12,7 @@ class HospitoqueTextField extends StatelessWidget {
 
   const HospitoqueTextField({
     Key? key,
-    required this.hintText, 
+    required this.hintText,
     required this.autofocus,
     this.onChanged,
     this.onSubmitted,
@@ -32,27 +32,29 @@ class HospitoqueTextField extends StatelessWidget {
         hintText: hintText,
         border: InputBorder.none,
         counterText: '',
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              width: 1.5, color: Theme.of(context).highlightColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-              width: 1.5, color: Theme.of(context).highlightColor),
-        ),
+        enabledBorder: _getDefaultBorder(context),
+        focusedBorder: _getDefaultBorder(context),
+        disabledBorder: _getDefaultBorder(context),
         suffixIcon: suffixIcon,
       ),
       textInputAction: inputAction,
       onChanged: (value) {
-        if(onChanged != null) {
+        if (onChanged != null) {
           onChanged!(value);
         }
       },
       onSubmitted: (value) {
-        if(onSubmitted != null) {
+        if (onSubmitted != null) {
           onSubmitted!(value);
         }
       },
     );
   }
+
+  _getDefaultBorder(BuildContext context) => OutlineInputBorder(
+        borderSide: BorderSide(
+          width: 1.5,
+          color: Theme.of(context).highlightColor,
+        ),
+      );
 }

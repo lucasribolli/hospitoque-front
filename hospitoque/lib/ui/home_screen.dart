@@ -28,46 +28,61 @@ class _ItemsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      childAspectRatio: _itemAspectRatio(context),
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: context.isLargeWidth ? 4 : 2,
-      children: _items()
-          .map(
-            (i) => GestureDetector(
-              onTap: () {
-                if (i.isEnabled) {
-                  Navigator.pushNamed(context, i.route!);
-                }
-              },
-              child: Container(
-                margin: EdgeInsets.all(context.layoutWidth(3)),
-                decoration: HospitoqueDecorations.roundedBorder(
-                  context,
-                  color: i.isEnabled ? null : Theme.of(context).disabledColor,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      i.icon,
-                      size: context.layoutHeight(8),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: context.layoutWidth(6)),
-                      child: Text(
-                        i.text,
-                        style: Theme.of(context).textTheme.titleSmall,
-                        textAlign: TextAlign.center,
+    return Column(
+      children: [
+        Spacer(
+          flex: 1,
+        ),
+        Flexible(
+          flex: 12,
+          child: GridView.count(
+            childAspectRatio: _itemAspectRatio(context),
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: context.isLargeWidth ? 4 : 2,
+            children: _items()
+                .map(
+                  (i) => GestureDetector(
+                    onTap: () {
+                      if (i.isEnabled) {
+                        Navigator.pushNamed(context, i.route!);
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(context.layoutWidth(3)),
+                      decoration: HospitoqueDecorations.roundedBorder(
+                        context,
+                        color: i.isEnabled
+                            ? null
+                            : Theme.of(context).disabledColor,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            i.icon,
+                            size: context.layoutHeight(8),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: context.layoutWidth(6)),
+                            child: Text(
+                              i.text,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          )
-          .toList(),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        Spacer(
+          flex: 1,
+        ),
+      ],
     );
   }
 

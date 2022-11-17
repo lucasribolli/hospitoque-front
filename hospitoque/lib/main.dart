@@ -27,13 +27,20 @@ class HospitoqueApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Hospitoque',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: _getAppTheme(context),
         onGenerateRoute: (settings) => HospitoqueRouter.generateRoute(settings),
         debugShowCheckedModeBanner: false,
         home: const AuthOrHomeScreen(),
       ),
     );
   }
+}
+
+ThemeData _getAppTheme(BuildContext context) {
+  final ThemeData theme = Theme.of(context);
+  return theme.copyWith(
+    colorScheme: ColorScheme.fromSwatch(
+      primarySwatch: Colors.red,
+    ),
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/auth/auth_bloc.dart';
@@ -7,10 +8,15 @@ import 'package:hospitoque/ui/routes.dart';
 class BaseScreen extends StatelessWidget {
   final Widget child;
   final String title;
+  final bool showAppBar;
+  final bool showExitButtonOnMobile;
+
   const BaseScreen({
     Key? key,
     required this.child,
     this.title = Constants.APP_NAME,
+    this.showAppBar = true,
+    this.showExitButtonOnMobile = true,
   }) : super(key: key);
 
   @override
@@ -34,10 +40,27 @@ class BaseScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(title),
-          actions: [
+        appBar: getAppBar(context),
+        body: child,
+      ),
+    );
+  }
+
+  AppBar? getAppBar(BuildContext context) {
+    if (!showAppBar) {
+      return null;
+    }
+    if (kIsWeb) {
+      return AppBar(
+        centerTitle: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              textAlign: TextAlign.start,
+            ),
             TextButton(
               child: Text(
                 'Sair',
@@ -47,11 +70,28 @@ class BaseScreen extends StatelessWidget {
               ),
               onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)
                   .add(AuthEventSignOut()),
-            )
+            ),
           ],
         ),
-        body: child,
-      ),
+        automaticallyImplyLeading: false,
+        actions: null,
+      );
+    }
+    return AppBar(
+      centerTitle: true,
+      title: Text(title),
+      actions: showExitButtonOnMobile ? [
+        TextButton(
+          child: Text(
+            'Sair',
+            style: TextStyle(
+              color: Theme.of(context).backgroundColor,
+            ),
+          ),
+          onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)
+              .add(AuthEventSignOut()),
+        )
+      ] : null,
     );
   }
 }

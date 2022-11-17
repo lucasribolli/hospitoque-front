@@ -19,6 +19,7 @@ class SearchMedicineScreen extends StatelessWidget {
         .add(SearchMedicineEventReset());
     return BaseScreen(
       title: Constants.SEARCH_MEDICINE,
+      showExitButtonOnMobile: false,
       child: BlocBuilder<SearchMedicineBloc, SearchMedicineState>(
         buildWhen: (previous, current) =>
             previous.medicines != current.medicines,

@@ -38,46 +38,71 @@ class _GoogleSignInButton extends StatelessWidget {
       },
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(5)),
-            child: OutlinedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(context.layoutHeight(0.5)),
+          return Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: const [
+                  Colors.white,
+                  Colors.red,
+                ],
+              ),
+            ),
+            padding: EdgeInsets.symmetric(vertical: context.layoutHeight(2.5)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  'assets/large_logo.svg',
+                  height: context.layoutHeight(18),
+                  width: context.layoutHeight(18),
+                ),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: context.layoutWidth(5)),
+                  child: OutlinedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(context.layoutHeight(0.5)),
+                        ),
+                      ),
+                    ),
+                    onPressed: () =>
+                        BlocProvider.of<AuthBloc>(context, listen: false)
+                            .add(AuthEventSignIn()),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: context.layoutHeight(1.8)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/google_logo.svg',
+                            fit: BoxFit.contain,
+                            height: 18,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const Text(
+                            'Continue with Google',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)
-                  .add(AuthEventSignIn()),
-              child: Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: context.layoutHeight(1.8)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      'assets/google_logo.svg',
-                      fit: BoxFit.contain,
-                      height: 18,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    const Text(
-                      'Login with Google',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )
-                  ],
-                ),
-              ),
+              ],
             ),
           );
         },

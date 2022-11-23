@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart'
     show Navigator, BuildContext, debugPrint, immutable;
@@ -16,6 +18,7 @@ class RegisterMedicineBloc
     on<ChangeManufacturerRegisterMedicineEvent>(_onChangeManufacturerEvent);
     on<ChangeAvailableRegisterMedicineEvent>(_onChangeAvailableEvent);
     on<ChangeLastCompositionRegisterMedicineEvent>(_onChangeLastItemEvent);
+    on<ChangeExpirationDateRegisterMedicineEvent>(_onChangeExpirationDateEvent);
     on<AddCompositionRegisterMedicineEvent>(_onAddEvent);
     on<DeleteCompositionRegisterMedicineEvent>(_onDeleteEvent);
     on<ChangeLastVariantRegisterMedicineEvent>(_onChangeLastItemEvent);
@@ -61,6 +64,10 @@ class RegisterMedicineBloc
       variant: !isComposition ? list : state.variant,
     );
     emit(newState);
+  }
+
+  void _onChangeExpirationDateEvent(ChangeExpirationDateRegisterMedicineEvent event, emit) {
+    emit(state.copyWith(expirationDate: event.value));
   }
 
   void _onAddEvent(event, emit) {
@@ -140,6 +147,7 @@ class RegisterMedicineBloc
           .toList(),
       name: state.name,
       manufacturer: state.manufacturer,
+      expirationDate: state.expirationDate,
     );
     emit(state.copyWith(
       status: RegisterMedicineCurrentStatus.confirmation,

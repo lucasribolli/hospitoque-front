@@ -4,6 +4,7 @@ class RegisterMedicineState {
   final String name;
   final String manufacturer;
   final String available;
+  final DateTime expirationDate;
   final List<RegisterMedicineField<String>> composition;
   final List<RegisterMedicineField<String>> variant;
   final RegisterMedicineCurrentStatus status;
@@ -21,6 +22,7 @@ class RegisterMedicineState {
         RegisterMedicineField.initial(''),
       ],
       status: RegisterMedicineCurrentStatus.initial,
+      expirationDate: DateTime.now(),
     );
   }
 
@@ -31,6 +33,7 @@ class RegisterMedicineState {
     required this.composition,
     required this.variant,
     required this.status,
+    required this.expirationDate,
     this.medicine,
   });
 
@@ -42,6 +45,7 @@ class RegisterMedicineState {
     List<RegisterMedicineField<String>>? variant,
     RegisterMedicineCurrentStatus? status,
     Medicine? medicine,
+    DateTime? expirationDate,
   }) {
     return RegisterMedicineState(
       name: name ?? this.name,
@@ -51,6 +55,7 @@ class RegisterMedicineState {
       variant: variant ?? this.variant,
       status: status ?? this.status,
       medicine: medicine ?? this.medicine,
+      expirationDate: expirationDate ?? this.expirationDate,
     );
   }
 

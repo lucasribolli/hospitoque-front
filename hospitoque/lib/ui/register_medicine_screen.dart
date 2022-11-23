@@ -7,6 +7,7 @@ import 'package:hospitoque/ui/hospitoque_button.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
 import 'package:hospitoque/ui/medicine_details.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
+import 'package:hospitoque/utils/date_formatter.dart';
 
 class RegisterMedicineScreen extends StatelessWidget {
   const RegisterMedicineScreen({Key? key}) : super(key: key);
@@ -57,10 +58,16 @@ class RegisterMedicineScreen extends StatelessWidget {
                         _SimpleField(
                           name: 'Unidades disponíveis*',
                           hintText: '8',
-                          onChangeText: (value) =>
-                              BlocProvider.of<RegisterMedicineBloc>(context)
-                                  .add(ChangeAvailableRegisterMedicineEvent(
-                                      value)),
+                          onChangeText: (value) => BlocProvider.of<
+                                  RegisterMedicineBloc>(context)
+                              .add(ChangeAvailableRegisterMedicineEvent(value)),
+                        ),
+                        SizedBox(
+                            height: context.layoutHeight(_verticalItemsSpacer)),
+                        _DateField(
+                          name: 'Data de expiração:*',
+                          date: state.expirationDate,
+                          hintText: DateFormatter.getDayFormatted(state.expirationDate),
                         ),
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
@@ -132,7 +139,8 @@ class RegisterMedicineScreen extends StatelessWidget {
                           child: Icon(
                             Icons.check_circle_sharp,
                             color: Theme.of(context).primaryColor,
-                            size: context.layoutHeight(context.isLargeWidth ? 35 : 20),
+                            size: context
+                                .layoutHeight(context.isLargeWidth ? 35 : 20),
                           ),
                         )
                       ],
@@ -206,6 +214,67 @@ class _SimpleField extends StatelessWidget {
           autofocus: false,
           hintText: hintText,
           onChanged: onChangeText,
+        ),
+      ],
+    );
+  }
+}
+
+class _DateField extends StatelessWidget {
+  final String name;
+  final DateTime date;
+  final String hintText;
+
+  const _DateField({
+    Key? key,
+    required this.name,
+    required this.date,
+    required this.hintText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(name),
+        SizedBox(
+          height: context.layoutHeight(1.5),
+        ),
+        Row(
+          children: [
+            Flexible(
+              flex: 10,
+              child: HospitoqueTextField(
+                autofocus: false,
+                enabled: false,
+                hintText: hintText,
+              ),
+            ),
+            Spacer(flex: 1),
+            Flexible(
+              flex: 2,
+              child: IconButton(
+                icon: Icon(Icons.date_range),
+                onPressed: () async {
+                  DateTime? newDate = await showDatePicker(
+                    context: context,
+                    initialDate: date,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime.now().add(Duration(days: 365 * 10)),
+                  );
+                  if (newDate != null) {
+                    BlocProvider.of<RegisterMedicineBloc>(
+                      context,
+                      listen: false,
+                    ).add(
+                      ChangeExpirationDateRegisterMedicineEvent(newDate),
+                    );
+                  }
+                },
+              ),
+            )
+          ],
         ),
       ],
     );

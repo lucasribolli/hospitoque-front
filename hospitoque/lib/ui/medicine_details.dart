@@ -41,6 +41,22 @@ class MedicineDetails extends StatelessWidget {
         Flexible(
           flex: _itemFlex,
           child: _RowDetail(
+            field: 'Variantes',
+            value: medicine.variant.join(', '),
+          ),
+        ),
+        Spacer(flex: _itemSpacerFlex),
+        Flexible(
+          flex: _itemFlex,
+          child: _RowDetail(
+            field: 'Data de validade',
+            value: medicine.formattedExpirationDate,
+          ),
+        ),
+        Spacer(flex: _itemSpacerFlex),
+        Flexible(
+          flex: _itemFlex,
+          child: _RowDetail(
             field: 'Disponíveis',
             value: medicine.available.toString(),
           ),

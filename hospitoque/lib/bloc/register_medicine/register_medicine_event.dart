@@ -30,6 +30,12 @@ class ChangeLastCompositionRegisterMedicineEvent implements RegisterMedicineEven
   ChangeLastCompositionRegisterMedicineEvent(this.value);
 }
 
+class ChangeExpirationDateRegisterMedicineEvent implements RegisterMedicineEvent {
+  final DateTime value;
+
+  ChangeExpirationDateRegisterMedicineEvent(this.value);
+}
+
 class AddCompositionRegisterMedicineEvent implements RegisterMedicineEvent {}
 
 class DeleteCompositionRegisterMedicineEvent implements RegisterMedicineEvent {

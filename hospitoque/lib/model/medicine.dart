@@ -1,3 +1,5 @@
+import 'package:hospitoque/utils/date_formatter.dart';
+
 class Medicine {
   String? id;
   String name;
@@ -5,6 +7,7 @@ class Medicine {
   List<String> composition;
   List<String> variant;
   String? creationDate;
+  DateTime expirationDate;
   int available;
 
   Medicine({
@@ -13,6 +16,7 @@ class Medicine {
     required this.composition,
     required this.variant,
     required this.available,
+    required this.expirationDate,
     this.id,
     this.creationDate,
   });
@@ -26,6 +30,8 @@ class Medicine {
       variant: List<String>.from(map['variant']),
       creationDate: map['creationDate'] ?? '',
       available: map['available']?.toInt() ?? 0,
+      expirationDate:
+          DateTime.tryParse(map['expirationDate'] ?? '') ?? DateTime.now(),
     );
   }
 
@@ -37,6 +43,7 @@ class Medicine {
     result.addAll({'composition': composition});
     result.addAll({'variant': variant});
     result.addAll({'available': available});
+    result.addAll({'expirationDate': expirationDate});
 
     return result;
   }
@@ -54,6 +61,7 @@ class Medicine {
     List<String>? variant,
     String? creationDate,
     int? available,
+    DateTime? expirationDate,
   }) {
     return Medicine(
       id: id ?? this.id,
@@ -63,6 +71,11 @@ class Medicine {
       variant: variant ?? this.variant,
       creationDate: creationDate ?? this.creationDate,
       available: available ?? this.available,
+      expirationDate: expirationDate ?? this.expirationDate,
     );
+  }
+
+  get formattedExpirationDate {
+    return DateFormatter.getDayFormatted(expirationDate);
   }
 }

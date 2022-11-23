@@ -63,24 +63,3 @@ class HospitoqueRepository {
     await pref.remove(_EMAIL_USER_PREFERENCES_KEY);
   }
 }
-
-List<Medicine> mockedMedicines() => [
-      Medicine(
-        id: '633c1778c3faa00dcc54f2a4',
-        name: 'name',
-        manufacturer: 'manufacturer',
-        composition: ['composition'],
-        variant: ['variant'],
-        creationDate: 'creationDate',
-        available: 10,
-      ),
-      Medicine(
-        id: '633c1778c3faa00dcc54f5af4',
-        name: 'name 2',
-        manufacturer: 'manufacturer 2',
-        composition: ['composition 1', 'composition 2'],
-        variant: ['variant 1', 'variant 2'],
-        creationDate: 'creationDate',
-        available: 15,
-      ),
-    ];

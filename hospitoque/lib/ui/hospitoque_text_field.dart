@@ -9,6 +9,7 @@ class HospitoqueTextField extends StatelessWidget {
   final TextInputAction? inputAction;
   final Widget? suffixIcon;
   final bool enabled;
+  final TextInputType? type;
 
   const HospitoqueTextField({
     Key? key,
@@ -20,6 +21,7 @@ class HospitoqueTextField extends StatelessWidget {
     this.inputAction,
     this.suffixIcon,
     this.enabled = true,
+    this.type = TextInputType.text,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,7 @@ class HospitoqueTextField extends StatelessWidget {
           onSubmitted!(value);
         }
       },
+      keyboardType: type,
     );
   }
 

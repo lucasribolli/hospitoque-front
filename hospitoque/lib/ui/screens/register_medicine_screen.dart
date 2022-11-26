@@ -96,6 +96,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                           name: 'Variante(s)',
                           hint: '500mg',
                           fields: state.variant,
+                          type: TextInputType.number,
                           onButtonClick: (field) {
                             var event = field.enabled
                                 ? AddVariantRegisterMedicineEvent()
@@ -293,6 +294,7 @@ class _ListFields extends StatelessWidget {
   final bool required;
   final void Function(String text) onChangeText;
   final void Function(RegisterMedicineField field) onButtonClick;
+  final TextInputType? type;
 
   const _ListFields({
     Key? key,
@@ -302,6 +304,7 @@ class _ListFields extends StatelessWidget {
     required this.onChangeText,
     required this.onButtonClick,
     required this.hint,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -321,6 +324,7 @@ class _ListFields extends StatelessWidget {
             isEnabled: field.enabled,
             onButtonPressed: () => onButtonClick(field),
             onChangeText: onChangeText,
+            type: type,
           );
         }).toList(),
       ],
@@ -360,6 +364,7 @@ class _ListFieldItem extends StatelessWidget {
   final bool isEnabled;
   final IconData icon;
   final VoidCallback onButtonPressed;
+  final TextInputType? type;
 
   const _ListFieldItem({
     Key? key,
@@ -368,6 +373,7 @@ class _ListFieldItem extends StatelessWidget {
     required this.isEnabled,
     required this.icon,
     required this.onButtonPressed,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -381,6 +387,7 @@ class _ListFieldItem extends StatelessWidget {
             hintText: hintText,
             onChanged: onChangeText,
             enabled: isEnabled,
+            type: type,
           ),
         ),
         Spacer(flex: 1),

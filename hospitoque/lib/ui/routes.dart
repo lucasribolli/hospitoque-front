@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hospitoque/model/medicine.dart';
-import 'package:hospitoque/ui/auth_or_home_screen.dart';
-import 'package:hospitoque/ui/auth_screen.dart';
-import 'package:hospitoque/ui/home_screen.dart';
-import 'package:hospitoque/ui/list_medicines_screen.dart';
-import 'package:hospitoque/ui/medicine_details_screen.dart';
-import 'package:hospitoque/ui/register_medicine_screen.dart';
-import 'package:hospitoque/ui/search_medicine_screen.dart';
+import 'package:hospitoque/ui/screens/auth_or_home_screen.dart';
+import 'package:hospitoque/ui/screens/auth_screen.dart';
+import 'package:hospitoque/ui/screens/home_screen.dart';
+import 'package:hospitoque/ui/screens/list_medicines_screen.dart';
+import 'package:hospitoque/ui/screens/medicine_details_screen.dart';
+import 'package:hospitoque/ui/screens/register_medicine_screen.dart';
+import 'package:hospitoque/ui/screens/search_medicine_screen.dart';
+
 
 class HospitoqueRouter {
   static const AUTH_OR_HOME_ROUTE = '/auth-or-home';

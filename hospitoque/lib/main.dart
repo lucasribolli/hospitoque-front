@@ -5,9 +5,9 @@ import 'package:hospitoque/bloc/hospitoque_bloc_observer.dart';
 import 'package:hospitoque/bloc/list_medicine/list_medicine_bloc.dart';
 import 'package:hospitoque/bloc/register_medicine/register_medicine_bloc.dart';
 import 'package:hospitoque/bloc/search_medicine/search_medicine_bloc.dart';
-import 'package:hospitoque/ui/auth_or_home_screen.dart';
 import 'package:hospitoque/ui/routes.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:hospitoque/ui/screens/auth_or_home_screen.dart';
 
 void main() {
   Bloc.observer = HospitoqueBlocObserver();

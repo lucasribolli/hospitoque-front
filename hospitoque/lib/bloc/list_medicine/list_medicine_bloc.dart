@@ -11,7 +11,6 @@ class ListMedicineBloc extends Bloc<ListMedicineEvent, ListMedicineState> {
 
   ListMedicineBloc() : super(ListMedicineState.initial()) {
     on<ListAllMedicinesEvent>(_onListAll);
-    add(ListAllMedicinesEvent());
   }
 
   Future<void> _onListAll(ListAllMedicinesEvent event, emit) async {

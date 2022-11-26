@@ -10,6 +10,8 @@ class ListMedicinesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ListMedicineBloc>(context, listen: false)
+        .add(ListAllMedicinesEvent());
     return BaseScreen(
       child: BlocBuilder<ListMedicineBloc, ListMedicineState>(
         builder: (context, state) {

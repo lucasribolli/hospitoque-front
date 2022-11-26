@@ -37,7 +37,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                     child: ListView(
                       children: [
                         _SimpleField(
-                          name: 'Nome do Medicamento*',
+                          name: 'Nome do Medicamento',
                           hintText: 'Tylenol...',
                           onChangeText: (value) =>
                               BlocProvider.of<RegisterMedicineBloc>(context)
@@ -46,7 +46,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
                         _SimpleField(
-                          name: 'Fabricante*',
+                          name: 'Fabricante',
                           hintText: 'Johnson & Johnson...',
                           onChangeText: (value) =>
                               BlocProvider.of<RegisterMedicineBloc>(context)
@@ -56,7 +56,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
                         _SimpleField(
-                          name: 'Unidades disponíveis*',
+                          name: 'Unidades disponíveis',
                           hintText: '8',
                           onChangeText: (value) => BlocProvider.of<
                                   RegisterMedicineBloc>(context)
@@ -65,14 +65,15 @@ class RegisterMedicineScreen extends StatelessWidget {
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
                         _DateField(
-                          name: 'Data de expiração:*',
+                          name: 'Data de expiração',
                           date: state.expirationDate,
-                          hintText: DateFormatter.getDayFormatted(state.expirationDate),
+                          hintText: DateFormatter.getDayFormatted(
+                              state.expirationDate),
                         ),
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
                         _ListFields(
-                          name: 'Composição:*',
+                          name: 'Composição',
                           hint: 'Placetamol...',
                           fields: state.composition,
                           onButtonClick: (field) {
@@ -92,7 +93,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                         SizedBox(
                             height: context.layoutHeight(_verticalItemsSpacer)),
                         _ListFields(
-                          name: 'Variante(s):*',
+                          name: 'Variante(s)',
                           hint: '500mg',
                           fields: state.variant,
                           onButtonClick: (field) {
@@ -192,12 +193,14 @@ class RegisterMedicineScreen extends StatelessWidget {
 class _SimpleField extends StatelessWidget {
   final String name;
   final String hintText;
+  final bool required;
   final void Function(String) onChangeText;
 
   const _SimpleField({
     Key? key,
     required this.name,
     required this.hintText,
+    this.required = true,
     required this.onChangeText,
   }) : super(key: key);
 
@@ -206,7 +209,7 @@ class _SimpleField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name),
+        _FieldName(name: name, required: required),
         SizedBox(
           height: context.layoutHeight(1.5),
         ),
@@ -224,10 +227,12 @@ class _DateField extends StatelessWidget {
   final String name;
   final DateTime date;
   final String hintText;
+  final bool required;
 
   const _DateField({
     Key? key,
     required this.name,
+    this.required = true,
     required this.date,
     required this.hintText,
   }) : super(key: key);
@@ -237,7 +242,7 @@ class _DateField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name),
+        _FieldName(name: name, required: required),
         SizedBox(
           height: context.layoutHeight(1.5),
         ),
@@ -285,6 +290,7 @@ class _ListFields extends StatelessWidget {
   final String name;
   final String hint;
   final List<RegisterMedicineField> fields;
+  final bool required;
   final void Function(String text) onChangeText;
   final void Function(RegisterMedicineField field) onButtonClick;
 
@@ -292,6 +298,7 @@ class _ListFields extends StatelessWidget {
     Key? key,
     required this.fields,
     required this.name,
+    this.required = true,
     required this.onChangeText,
     required this.onButtonClick,
     required this.hint,
@@ -302,7 +309,7 @@ class _ListFields extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name),
+        _FieldName(name: name, required: required),
         SizedBox(
           height: context.layoutHeight(1.5),
         ),
@@ -316,6 +323,32 @@ class _ListFields extends StatelessWidget {
             onChangeText: onChangeText,
           );
         }).toList(),
+      ],
+    );
+  }
+}
+
+class _FieldName extends StatelessWidget {
+  final String name;
+  final bool required;
+
+  const _FieldName({
+    Key? key,
+    required this.name,
+    required this.required,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text('$name:'),
+        required
+            ? Text(
+                '*',
+                style: TextStyle(color: Colors.red),
+              )
+            : SizedBox(),
       ],
     );
   }

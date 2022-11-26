@@ -17,7 +17,7 @@ class SearchMedicineBloc extends Bloc<SearchMedicineEvent, SearchMedicineState> 
     try {
       String keyword = event.keyword;
       if(keyword.isNotEmpty) {
-        List<Medicine> medicines = await HospitoqueRepository.getMedicines(keyword);
+        List<Medicine> medicines = await HospitoqueRepository.getMedicines(keyword: keyword);
         debugPrint('medicines with $keyword -> $medicines');
         emit(state.copyWith(medicines: medicines));
       }

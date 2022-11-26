@@ -7,7 +7,7 @@ import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
 import 'package:hospitoque/ui/hospitoque_decorations.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
-import 'package:hospitoque/ui/routes.dart';
+import 'package:hospitoque/ui/medicines_table.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 
 class SearchMedicineScreen extends StatelessWidget {
@@ -44,8 +44,6 @@ class _Medicines extends StatelessWidget {
   final List<Medicine> medicines;
   const _Medicines({Key? key, required this.medicines}) : super(key: key);
 
-  final int _columnFlex = 5;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -53,103 +51,10 @@ class _Medicines extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: context.layoutHeight(5)),
         child: medicines.isNotEmpty
-            ? Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          flex: _columnFlex,
-                          child: Text(
-                            'ID',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: _columnFlex,
-                          child: Text(
-                            'Nome',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Expanded(
-                          flex: _columnFlex,
-                          child: Text(
-                            'Un. Disp.',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Flexible(
-                    flex: 9,
-                    child: ListView(
-                      children: [
-                        ...medicines
-                            .map(
-                              (m) => GestureDetector(
-                                onTap: () => _onMedicineTap(context, m),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      flex: _columnFlex,
-                                      child: _TableItem(
-                                        value: m.id!,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: _columnFlex,
-                                      child: _TableItem(
-                                        value: m.name,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: _columnFlex,
-                                      child: _TableItem(
-                                        value: m.available.toString(),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ],
-                    ),
-                  )
-                ],
+            ? MedicineTable(
+                medicines: medicines,
               )
             : const _EmptyListState(),
-      ),
-    );
-  }
-
-  void _onMedicineTap(BuildContext c, Medicine m) =>
-      Navigator.pushNamed(c, HospitoqueRouter.MEDICINE_DETAILS_ROUTE,
-          arguments: m);
-}
-
-class _TableItem extends StatelessWidget {
-  const _TableItem({Key? key, required this.value}) : super(key: key);
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: context.layoutHeight(6),
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).highlightColor),
-      ),
-      child: Center(
-        child: Text(
-          value,
-          textAlign: TextAlign.center,
-        ),
       ),
     );
   }

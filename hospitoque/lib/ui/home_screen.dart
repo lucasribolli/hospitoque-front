@@ -105,7 +105,8 @@ List<_MainScreenItem> _items() => [
       _MainScreenItem(
         text: Constants.LIST_MEDICINE,
         icon: Icons.list,
-        isEnabled: false,
+        isEnabled: true,
+        route: HospitoqueRouter.LIST_MEDICINE_ROUTE,
       ),
       _MainScreenItem(
         text: Constants.REGISTER_CHECK_OUT,

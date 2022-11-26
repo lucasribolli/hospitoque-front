@@ -18,7 +18,7 @@ class HospitoqueRepository {
     return isAuthorized;
   }
 
-  static Future<List<Medicine>> getMedicines(String keyword) async {
+  static Future<List<Medicine>> getMedicines({String keyword = ''}) async {
     var dio = Dio();
     var response = await dio.get('${Constants.BASE_URL}/medicine?q=$keyword');
     List<dynamic> medicinesResponse = response.data;

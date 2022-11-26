@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart' show debugPrint, immutable;
+import 'package:flutter/foundation.dart' show debugPrint, immutable, kDebugMode;
 import 'package:hospitoque/repositories/repository.dart';
 
 part 'auth_event.dart';
@@ -37,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onVerifyLogin(event, emit) async {
     try {
       String? email = await HospitoqueRepository.getEmail();
-      if(email == null) {
+      if(email == null && !kDebugMode) {
         emit(AuthUnauthorizedState());
       } else {
         emit(AuthSuccessState());

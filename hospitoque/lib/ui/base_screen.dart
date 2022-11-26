@@ -65,7 +65,7 @@ class BaseScreen extends StatelessWidget {
               child: Text(
                 'Sair',
                 style: TextStyle(
-                  color: Theme.of(context).highlightColor,
+                  color: Colors.white,
                 ),
               ),
               onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)

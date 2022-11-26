@@ -65,7 +65,7 @@ class BaseScreen extends StatelessWidget {
               child: Text(
                 'Sair',
                 style: TextStyle(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).highlightColor,
                 ),
               ),
               onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)
@@ -80,18 +80,16 @@ class BaseScreen extends StatelessWidget {
     return AppBar(
       centerTitle: true,
       title: Text(title),
-      actions: showExitButtonOnMobile ? [
-        TextButton(
-          child: Text(
-            'Sair',
-            style: TextStyle(
-              color: Theme.of(context).backgroundColor,
-            ),
-          ),
-          onPressed: () => BlocProvider.of<AuthBloc>(context, listen: false)
-              .add(AuthEventSignOut()),
-        )
-      ] : null,
+      actions: showExitButtonOnMobile
+          ? [
+              IconButton(
+                onPressed: () =>
+                    BlocProvider.of<AuthBloc>(context, listen: false)
+                        .add(AuthEventSignOut()),
+                icon: Icon(Icons.logout),
+              ),
+            ]
+          : null,
     );
   }
 }

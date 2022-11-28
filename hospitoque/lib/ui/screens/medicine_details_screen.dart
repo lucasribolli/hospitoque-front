@@ -12,7 +12,6 @@ class MedicineDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScreen(
       title: 'Detalhes ${medicine.name}',
-      showExitButtonOnMobile: false,
       child: MedicineDetails(
         medicine: medicine,
       ),

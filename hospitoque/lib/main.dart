@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/auth/auth_bloc.dart';
+import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
 import 'package:hospitoque/bloc/hospitoque_bloc_observer.dart';
 import 'package:hospitoque/bloc/list_medicine/list_medicine_bloc.dart';
 import 'package:hospitoque/bloc/register_medicine/register_medicine_bloc.dart';
@@ -27,6 +28,7 @@ class HospitoqueApp extends StatelessWidget {
         BlocProvider<SearchMedicineBloc>(create: (context) => SearchMedicineBloc()),
         BlocProvider<ListMedicineBloc>(create: (context) => ListMedicineBloc()),
         BlocProvider<RegisterMedicineBloc>(create: (context) => RegisterMedicineBloc()),
+        BlocProvider<DiscardMedicineBloc>(create: (context) => DiscardMedicineBloc()),
       ],
       child: MaterialApp(
         title: Constants.APP_NAME,

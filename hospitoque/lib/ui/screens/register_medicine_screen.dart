@@ -21,7 +21,6 @@ class RegisterMedicineScreen extends StatelessWidget {
         .add(ResetRegisterMedicineEvent());
     return BaseScreen(
       title: Constants.REGISTER_MEDICINE,
-      showExitButtonOnMobile: false,
       child: BlocBuilder<RegisterMedicineBloc, RegisterMedicineState>(
         builder: (context, state) {
           return Container(

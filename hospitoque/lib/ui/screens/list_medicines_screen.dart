@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/list_medicine/list_medicine_bloc.dart';
 import 'package:hospitoque/ui/base_screen.dart';
-import 'package:hospitoque/ui/medicines_table.dart';
+import 'package:hospitoque/ui/components/medicines_table.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 
 class ListMedicinesScreen extends StatelessWidget {

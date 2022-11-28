@@ -11,4 +11,6 @@ class Constants {
   static const REGISTER_MEDICINE = 'Cadastrar Medicamento';
   static const DISCARD_MEDICINE = 'Descartar Medicamento';
   static const EDIT_MEDICINE = 'Editar Medicamento';
+
+  static const DAYS_IN_MONTH = 30;
 }

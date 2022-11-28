@@ -7,7 +7,7 @@ import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
 import 'package:hospitoque/ui/hospitoque_decorations.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
-import 'package:hospitoque/ui/medicines_table.dart';
+import 'package:hospitoque/ui/components/medicines_table.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 
 class SearchMedicineScreen extends StatelessWidget {
@@ -19,7 +19,6 @@ class SearchMedicineScreen extends StatelessWidget {
         .add(SearchMedicineEventReset());
     return BaseScreen(
       title: Constants.SEARCH_MEDICINE,
-      showExitButtonOnMobile: false,
       child: BlocBuilder<SearchMedicineBloc, SearchMedicineState>(
         buildWhen: (previous, current) =>
             previous.medicines != current.medicines,

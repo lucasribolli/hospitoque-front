@@ -16,7 +16,7 @@ class BaseScreen extends StatelessWidget {
     required this.child,
     this.title = Constants.APP_NAME,
     this.showAppBar = true,
-    this.showExitButtonOnMobile = true,
+    this.showExitButtonOnMobile = false,
   }) : super(key: key);
 
   @override

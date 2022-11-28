@@ -1,7 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'discard_medicine_bloc.dart';
 
 class DiscardMedicineState {
-  List<ExpirationMedicine> medicines;
+  List<DiscartableMedicine> medicines;
 
   DiscardMedicineState._({
     required this.medicines,
@@ -12,7 +13,7 @@ class DiscardMedicineState {
   }
 
   DiscardMedicineState copyWith({
-    List<ExpirationMedicine>? medicines,
+    List<DiscartableMedicine>? medicines,
   }) {
     return DiscardMedicineState._(
       medicines: medicines ?? this.medicines,
@@ -20,19 +21,39 @@ class DiscardMedicineState {
   }
 }
 
-class ExpirationMedicine {
+class DiscartableMedicine {
   final Medicine medicine;
   final TimeToExpiration timeToExpiration;
+  final bool selected;
 
-  ExpirationMedicine({
+  DiscartableMedicine({
     required this.medicine,
     required this.timeToExpiration,
+    this.selected = false,
   });
+
+  DiscartableMedicine copyWith({
+    bool? selected,
+  }) {
+    return DiscartableMedicine(
+      medicine: medicine,
+      timeToExpiration: timeToExpiration,
+      selected: selected ?? this.selected,
+    );
+  }
+
+  @override
+  String toString() => 'DiscartableMedicine(medicine: $medicine, timeToExpiration: $timeToExpiration, selected: $selected)';
 }
 
 enum TimeToExpiration {
   past,
-  sameWeek,
   sameMonth,
-  nextMonthOrMore,
+  future,
+}
+
+extension Comparation on TimeToExpiration {
+  get isInPast => this == TimeToExpiration.past;
+  get isSameMonth => this == TimeToExpiration.sameMonth;
+  get isInFuture => this == TimeToExpiration.future;
 }

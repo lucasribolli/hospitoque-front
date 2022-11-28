@@ -43,7 +43,7 @@ class Medicine {
     result.addAll({'composition': composition});
     result.addAll({'variant': variant});
     result.addAll({'available': available});
-    result.addAll({'expirationDate': expirationDate});
+    result.addAll({'expirationDate': expirationDate.toIso8601String()});
 
     return result;
   }

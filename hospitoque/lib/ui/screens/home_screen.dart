@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
+      showExitButtonOnMobile: true,
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(3)),

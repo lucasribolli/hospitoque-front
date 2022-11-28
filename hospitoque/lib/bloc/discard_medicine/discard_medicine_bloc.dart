@@ -15,6 +15,7 @@ class DiscardMedicineBloc
   DiscardMedicineBloc() : super(DiscardMedicineState.initial()) {
     on<ListAllMedicinesEvent>(_onListAll);
     on<SelectMedicineEvent>(_onSelectMedicine);
+    on<DeleteAllSelectedEvent>(_onDeleteAllSelected);
   }
 
   Future<void> _onListAll(ListAllMedicinesEvent event, emit) async {
@@ -56,12 +57,29 @@ class DiscardMedicineBloc
     return TimeToExpiration.future;
   }
 
-  void _onSelectMedicine(SelectMedicineEvent event, Emitter<DiscardMedicineState> emit) {
-    int index =
-        state.medicines.indexWhere((m) => m == event.medicine);
+  void _onSelectMedicine(
+      SelectMedicineEvent event, Emitter<DiscardMedicineState> emit) {
+    int index = state.medicines.indexWhere((m) => m == event.medicine);
     List<DiscartableMedicine> medicines = [...state.medicines];
     DiscartableMedicine selectedMedicine = medicines[index];
-    medicines[index] = selectedMedicine.copyWith(selected: !selectedMedicine.selected);
+    medicines[index] =
+        selectedMedicine.copyWith(selected: !selectedMedicine.selected);
     emit(state.copyWith(medicines: medicines));
+  }
+
+  Future<void> _onDeleteAllSelected(event, emit) async {
+    List<DiscartableMedicine> medicinesToDelete =
+        state.medicines.where((m) => m.selected).toList();
+    debugPrint('$_TAG medicinesToDelete -> $medicinesToDelete');
+    if (medicinesToDelete.isEmpty) {
+      return;
+    }
+
+    bool shouldInsertReasonToDelete = medicinesToDelete
+        .where((m) => m.timeToExpiration.isInFuture)
+        .toList()
+        .isNotEmpty;
+
+    // TODO inserir novo estado para inserir razão de deleção (talvez nova tabela no banco)
   }
 }

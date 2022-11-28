@@ -10,3 +10,5 @@ class SelectMedicineEvent extends DiscardMedicineEvent {
   
   SelectMedicineEvent(this.medicine);
 }
+
+class DeleteAllSelectedEvent extends DiscardMedicineEvent {}

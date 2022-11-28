@@ -10,16 +10,34 @@ class DiscardMedicinesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<DiscardMedicineBloc>(context, listen: false).add(ListAllMedicinesEvent());
+    BlocProvider.of<DiscardMedicineBloc>(context, listen: false)
+        .add(ListAllMedicinesEvent());
     return BaseScreen(
       child: Padding(
         padding: EdgeInsets.all(context.layoutWidth(4)),
-        child: BlocBuilder<DiscardMedicineBloc, DiscardMedicineState>(
-          builder: (context, state) {
-            return SelectableMedicineTable(
-              medicines: state.medicines,
-            );
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              flex: 5,
+              child: BlocBuilder<DiscardMedicineBloc, DiscardMedicineState>(
+                builder: (context, state) {
+                  return SelectableMedicineTable(
+                    medicines: state.medicines,
+                  );
+                },
+              ),
+            ),
+            Flexible(
+              flex: 1,
+              child: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () =>
+                    BlocProvider.of<DiscardMedicineBloc>(context, listen: false)
+                        .add(DeleteAllSelectedEvent()),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 import 'package:hospitoque/utils/date_formatter.dart';
@@ -63,7 +64,12 @@ class SelectableMedicineTable extends StatelessWidget {
                           flex: _checkboxFlex,
                           child: Checkbox(
                             value: m.selected,
-                            onChanged: (a) {},
+                            onChanged: (selected) {
+                              BlocProvider.of<DiscardMedicineBloc>(
+                                context,
+                                listen: false,
+                              ).add(SelectMedicineEvent(m));
+                            },
                           ),
                         ),
                         Expanded(
@@ -107,6 +113,7 @@ class SelectableMedicineTable extends StatelessWidget {
     if (time.isSameMonth) {
       return Colors.orange;
     }
+    return null;
   }
 }
 

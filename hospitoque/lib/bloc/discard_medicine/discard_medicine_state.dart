@@ -44,6 +44,19 @@ class DiscartableMedicine {
 
   @override
   String toString() => 'DiscartableMedicine(medicine: $medicine, timeToExpiration: $timeToExpiration, selected: $selected)';
+
+  @override
+  bool operator ==(covariant DiscartableMedicine other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.medicine == medicine &&
+      other.timeToExpiration == timeToExpiration &&
+      other.selected == selected;
+  }
+
+  @override
+  int get hashCode => medicine.hashCode ^ timeToExpiration.hashCode ^ selected.hashCode;
 }
 
 enum TimeToExpiration {

@@ -4,3 +4,9 @@ part of 'discard_medicine_bloc.dart';
 abstract class DiscardMedicineEvent {}
 
 class ListAllMedicinesEvent extends DiscardMedicineEvent {}
+
+class SelectMedicineEvent extends DiscardMedicineEvent {
+  final DiscartableMedicine medicine;
+  
+  SelectMedicineEvent(this.medicine);
+}

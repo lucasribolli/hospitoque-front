@@ -14,13 +14,15 @@ class DiscardMedicineBloc
 
   DiscardMedicineBloc() : super(DiscardMedicineState.initial()) {
     on<ListAllMedicinesEvent>(_onListAll);
+    on<SelectMedicineEvent>(_onSelectMedicine);
   }
 
   Future<void> _onListAll(ListAllMedicinesEvent event, emit) async {
     try {
       List<Medicine> medicines =
           await HospitoqueRepository.getMedicines(keyword: '');
-      List<DiscartableMedicine> expirationMedicines = _orderMedicines(medicines);
+      List<DiscartableMedicine> expirationMedicines =
+          _orderMedicines(medicines);
       debugPrint('$_TAG expirationMedicines -> $expirationMedicines');
       emit(state.copyWith(medicines: expirationMedicines));
     } catch (e) {
@@ -37,18 +39,29 @@ class DiscardMedicineBloc
       (m) {
         return DiscartableMedicine(
           medicine: m,
-          timeToExpiration: _getTimeToExpiration(now, m.expirationDate.ignoreDays),
+          timeToExpiration:
+              _getTimeToExpiration(now, m.expirationDate.ignoreDays),
         );
       },
     ).toList();
   }
 
   TimeToExpiration _getTimeToExpiration(DateTime now, DateTime expirationDate) {
-    if(expirationDate.isBefore(now)) {
+    if (expirationDate.isBefore(now)) {
       return TimeToExpiration.past;
-    } if(expirationDate.difference(now).inDays <= Constants.DAYS_IN_MONTH) {
+    }
+    if (expirationDate.difference(now).inDays <= Constants.DAYS_IN_MONTH) {
       return TimeToExpiration.sameMonth;
     }
     return TimeToExpiration.future;
+  }
+
+  void _onSelectMedicine(SelectMedicineEvent event, Emitter<DiscardMedicineState> emit) {
+    int index =
+        state.medicines.indexWhere((m) => m == event.medicine);
+    List<DiscartableMedicine> medicines = [...state.medicines];
+    DiscartableMedicine selectedMedicine = medicines[index];
+    medicines[index] = selectedMedicine.copyWith(selected: !selectedMedicine.selected);
+    emit(state.copyWith(medicines: medicines));
   }
 }

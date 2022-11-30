@@ -16,6 +16,7 @@ class DiscardMedicineBloc
     on<ListAllMedicinesEvent>(_onListAll);
     on<SelectMedicineEvent>(_onSelectMedicine);
     on<DeleteAllSelectedEvent>(_onDeleteAllSelected);
+    on<ReasonChangedEvent>(_onReasonChanged);
   }
 
   Future<void> _onListAll(ListAllMedicinesEvent event, emit) async {
@@ -25,7 +26,8 @@ class DiscardMedicineBloc
       List<DiscartableMedicine> expirationMedicines =
           _orderMedicines(medicines);
       debugPrint('$_TAG expirationMedicines -> $expirationMedicines');
-      emit(state.copyWith(medicines: expirationMedicines));
+      var newState = DiscardMedicineState.initial();
+      emit(newState.copyWith(medicines: expirationMedicines));
     } catch (e) {
       debugPrint('$_TAG error on list all: $e');
     }
@@ -67,7 +69,8 @@ class DiscardMedicineBloc
     emit(state.copyWith(medicines: medicines));
   }
 
-  Future<void> _onDeleteAllSelected(event, emit) async {
+  Future<void> _onDeleteAllSelected(
+      event, Emitter<DiscardMedicineState> emit) async {
     List<DiscartableMedicine> medicinesToDelete =
         state.medicines.where((m) => m.selected).toList();
     debugPrint('$_TAG medicinesToDelete -> $medicinesToDelete');
@@ -80,6 +83,25 @@ class DiscardMedicineBloc
         .toList()
         .isNotEmpty;
 
-    // TODO inserir novo estado para inserir razão de deleção (talvez nova tabela no banco)
+    if (shouldInsertReasonToDelete) {
+      emit(state.copyWith(status: DiscardMedicineStatus.reason));
+    } else {
+      List<String> ids = medicinesToDelete.map((m) => m.medicine.id!).toList();
+      await _delete(ids, emit);
+    }
+  }
+
+  Future<void> _delete(
+      List<String> ids, Emitter<DiscardMedicineState> emit) async {
+    try {
+      await HospitoqueRepository.discardMedicines(ids);
+      emit(state.copyWith(status: DiscardMedicineStatus.deleted));
+    } catch (e) {
+      debugPrint('$_TAG error deleting $ids: $e');
+    }
+  }
+
+  void _onReasonChanged(ReasonChangedEvent event, emit) {
+    emit(state.copyWith(reason: event.reason));
   }
 }

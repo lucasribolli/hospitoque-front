@@ -2,21 +2,32 @@
 part of 'discard_medicine_bloc.dart';
 
 class DiscardMedicineState {
-  List<DiscartableMedicine> medicines;
+  final List<DiscartableMedicine> medicines;
+  final DiscardMedicineStatus status;
+  final String? reason;
 
   DiscardMedicineState._({
     required this.medicines,
+    required this.status,
+    this.reason,
   });
 
   factory DiscardMedicineState.initial() {
-    return DiscardMedicineState._(medicines: []);
+    return DiscardMedicineState._(
+      medicines: [],
+      status: DiscardMedicineStatus.select,
+    );
   }
 
   DiscardMedicineState copyWith({
     List<DiscartableMedicine>? medicines,
+    DiscardMedicineStatus? status,
+    String? reason,
   }) {
     return DiscardMedicineState._(
       medicines: medicines ?? this.medicines,
+      status: status ?? this.status,
+      reason: reason ?? this.reason,
     );
   }
 }
@@ -43,20 +54,27 @@ class DiscartableMedicine {
   }
 
   @override
-  String toString() => 'DiscartableMedicine(medicine: $medicine, timeToExpiration: $timeToExpiration, selected: $selected)';
+  String toString() =>
+      'DiscartableMedicine(medicine: $medicine, timeToExpiration: $timeToExpiration, selected: $selected)';
 
   @override
   bool operator ==(covariant DiscartableMedicine other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.medicine == medicine &&
-      other.timeToExpiration == timeToExpiration &&
-      other.selected == selected;
+
+    return other.medicine == medicine &&
+        other.timeToExpiration == timeToExpiration &&
+        other.selected == selected;
   }
 
   @override
-  int get hashCode => medicine.hashCode ^ timeToExpiration.hashCode ^ selected.hashCode;
+  int get hashCode =>
+      medicine.hashCode ^ timeToExpiration.hashCode ^ selected.hashCode;
+}
+
+enum DiscardMedicineStatus {
+  select,
+  reason,
+  deleted,
 }
 
 enum TimeToExpiration {
@@ -65,8 +83,14 @@ enum TimeToExpiration {
   future,
 }
 
-extension Comparation on TimeToExpiration {
+extension TimeComparation on TimeToExpiration {
   get isInPast => this == TimeToExpiration.past;
   get isSameMonth => this == TimeToExpiration.sameMonth;
   get isInFuture => this == TimeToExpiration.future;
+}
+
+extension StatusComparation on DiscardMedicineStatus {
+  get isSelect => this == DiscardMedicineStatus.select;
+  get isReason => this == DiscardMedicineStatus.reason;
+  get isDeleted => this == DiscardMedicineStatus.deleted;
 }

@@ -7,8 +7,14 @@ class ListAllMedicinesEvent extends DiscardMedicineEvent {}
 
 class SelectMedicineEvent extends DiscardMedicineEvent {
   final DiscartableMedicine medicine;
-  
+
   SelectMedicineEvent(this.medicine);
 }
 
 class DeleteAllSelectedEvent extends DiscardMedicineEvent {}
+
+class ReasonChangedEvent extends DiscardMedicineEvent {
+  final String reason;
+
+  ReasonChangedEvent(this.reason);
+}

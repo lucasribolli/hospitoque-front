@@ -10,6 +10,7 @@ class HospitoqueTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool enabled;
   final TextInputType? type;
+  final int? maxLines;
 
   const HospitoqueTextField({
     Key? key,
@@ -22,6 +23,7 @@ class HospitoqueTextField extends StatelessWidget {
     this.suffixIcon,
     this.enabled = true,
     this.type = TextInputType.text,
+    this.maxLines,
   }) : super(key: key);
 
   @override
@@ -30,6 +32,7 @@ class HospitoqueTextField extends StatelessWidget {
       autofocus: autofocus,
       controller: controller,
       enabled: enabled,
+      maxLines: maxLines,
       decoration: InputDecoration(
         hintText: hintText,
         border: InputBorder.none,

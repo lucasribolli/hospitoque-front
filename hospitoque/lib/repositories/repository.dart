@@ -12,15 +12,18 @@ class HospitoqueRepository {
 
   static Future<bool> auth(String email) async {
     var dio = Dio();
-    var response = await dio.get('${Constants.BASE_URL}/auth?email=$email');
+    var response = await dio
+        .get('${Constants.BASE_URL}/${Constants.API_AUTH_ROUTE}?email=$email');
     debugPrint('response.data -> ${response.data}');
     bool isAuthorized = response.data['authorized'];
     return isAuthorized;
   }
 
   static Future<List<Medicine>> getMedicines({String keyword = ''}) async {
+    return medicines;
     var dio = Dio();
-    var response = await dio.get('${Constants.BASE_URL}/medicine?q=$keyword');
+    var response = await dio.get(
+        '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}?q=$keyword');
     List<dynamic> medicinesResponse = response.data;
     // return mockedMedicines();
     return medicinesResponse.map((m) => Medicine.fromMap(m)).toList();
@@ -29,8 +32,20 @@ class HospitoqueRepository {
   static Future<void> addMedicine(Medicine medicine) async {
     var dio = Dio();
     var response = await dio.post(
-      '${Constants.BASE_URL}/medicine',
+      '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}',
       data: medicine.toMap(),
+    );
+    debugPrint('addMedicine response -> ${response.data}');
+  }
+
+  static Future<void> discardMedicines(List<String> ids) async {
+    return Future.value();
+    var dio = Dio();
+    var response = await dio.delete(
+      '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}',
+      data: {
+        'ids': ids,
+      },
     );
     debugPrint('addMedicine response -> ${response.data}');
   }
@@ -46,13 +61,13 @@ class HospitoqueRepository {
   }
 
   static Future<String?> getEmail() async {
-    if(await GoogleSignIn().isSignedIn()) {
+    if (await GoogleSignIn().isSignedIn()) {
       debugPrint('isSigned');
       final pref = await SharedPreferences.getInstance();
       String? email = pref.getString(_EMAIL_USER_PREFERENCES_KEY);
       debugPrint('preferences email => $email');
       debugPrint('GoogleSignIn email => ${GoogleSignIn().currentUser?.email}');
-        return email;
+      return email;
     }
     return null;
   }
@@ -63,3 +78,46 @@ class HospitoqueRepository {
     await pref.remove(_EMAIL_USER_PREFERENCES_KEY);
   }
 }
+
+var medicines = [
+  Medicine(
+    id: '1',
+    name: 'Teste 1',
+    available: 10,
+    composition: ['a', 'b'],
+    variant: ['100mg', '200mg'],
+    expirationDate: DateTime.now().subtract(Duration(days: 10)),
+    manufacturer: 'farmacia',
+    creationDate: '',
+  ),
+  Medicine(
+    id: '2',
+    name: 'Teste 2',
+    available: 20,
+    composition: ['a', 'b'],
+    variant: ['100mg', '200mg'],
+    expirationDate: DateTime.now(),
+    manufacturer: 'farmacia',
+    creationDate: '',
+  ),
+  Medicine(
+    id: '3',
+    name: 'Teste 3',
+    available: 30,
+    composition: ['a', 'b'],
+    variant: ['100mg', '200mg'],
+    expirationDate: DateTime.now().add(Duration(days: 10)),
+    manufacturer: 'farmacia',
+    creationDate: '',
+  ),
+  Medicine(
+    id: '4',
+    name: 'Teste 4',
+    available: 40,
+    composition: ['a', 'b'],
+    variant: ['100mg', '200mg'],
+    expirationDate: DateTime.now().add(Duration(days: 60)),
+    manufacturer: 'farmacia',
+    creationDate: '',
+  ),
+];

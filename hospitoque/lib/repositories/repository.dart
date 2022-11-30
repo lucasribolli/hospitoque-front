@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hospitoque/model/discard_medicine.dart';
 import 'package:hospitoque/model/medicine.dart';
 import 'package:hospitoque/repositories/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,14 +39,12 @@ class HospitoqueRepository {
     debugPrint('addMedicine response -> ${response.data}');
   }
 
-  static Future<void> discardMedicines(List<String> ids) async {
+  static Future<void> discardMedicines(DiscardMedicineBody body) async {
     return Future.value();
     var dio = Dio();
     var response = await dio.delete(
       '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}',
-      data: {
-        'ids': ids,
-      },
+      data: body.toMap(),
     );
     debugPrint('addMedicine response -> ${response.data}');
   }

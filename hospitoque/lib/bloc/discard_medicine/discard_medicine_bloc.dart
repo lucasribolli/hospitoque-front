@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart' show debugPrint, immutable;
+import 'package:hospitoque/model/discard_medicine.dart';
 import 'package:hospitoque/model/medicine.dart';
 import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/repositories/repository.dart';
@@ -92,9 +93,12 @@ class DiscardMedicineBloc
   }
 
   Future<void> _delete(
-      List<String> ids, Emitter<DiscardMedicineState> emit) async {
+    List<String> ids,
+    Emitter<DiscardMedicineState> emit,
+  ) async {
     try {
-      await HospitoqueRepository.discardMedicines(ids);
+      var body = DiscardMedicineBody(ids: ids, reason: state.reason);
+      await HospitoqueRepository.discardMedicines(body);
       emit(state.copyWith(status: DiscardMedicineStatus.deleted));
     } catch (e) {
       debugPrint('$_TAG error deleting $ids: $e');

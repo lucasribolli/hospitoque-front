@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
@@ -40,19 +41,23 @@ class DiscardMedicinesScreen extends StatelessWidget {
           } else if (state.status.isReason) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Spacer(flex: 1),
                 Expanded(
                   flex: 2,
                   child: Text(
                     'Você pretende descartar medicamentos fora do prazo de validade.\n'
                     'Por isso, é necessário inserir um motivo.',
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: kIsWeb
+                        ? Theme.of(context).textTheme.displaySmall
+                        : Theme.of(context).textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Spacer(flex: 1),
                 Expanded(
-                  flex: 7,
+                  flex: 6,
                   child: HospitoqueTextField(
                     hintText: 'Motivo...',
                     autofocus: false,
@@ -64,7 +69,7 @@ class DiscardMedicinesScreen extends StatelessWidget {
                         .add(ReasonChangedEvent(reason)),
                   ),
                 ),
-                Flexible(
+                Expanded(
                   flex: 1,
                   child: IconButton(
                     icon: Icon(Icons.delete),

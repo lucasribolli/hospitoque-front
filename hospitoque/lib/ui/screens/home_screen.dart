@@ -24,9 +24,7 @@ class HomeScreen extends StatelessWidget {
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(3)),
-            child: const Expanded(
-              child: _ItemsWidget(),
-            ),
+            child: _ItemsWidget(),
           ),
         ),
       ),

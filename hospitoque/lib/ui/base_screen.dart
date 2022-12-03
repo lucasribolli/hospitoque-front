@@ -41,6 +41,7 @@ class BaseScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: getAppBar(context),
+        resizeToAvoidBottomInset: false,
         body: child,
       ),
     );

@@ -11,6 +11,7 @@ class HospitoqueTextField extends StatelessWidget {
   final bool enabled;
   final TextInputType? type;
   final int? maxLines;
+  final FocusNode? focusNode;
 
   const HospitoqueTextField({
     Key? key,
@@ -24,11 +25,13 @@ class HospitoqueTextField extends StatelessWidget {
     this.enabled = true,
     this.type = TextInputType.text,
     this.maxLines,
+    this.focusNode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      focusNode: focusNode,
       autofocus: autofocus,
       controller: controller,
       enabled: enabled,

@@ -9,11 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HospitoqueRepository {
   HospitoqueRepository._();
 
+  static final _dio = Dio();
+
   static const String _EMAIL_USER_PREFERENCES_KEY = 'email_key';
 
   static Future<bool> auth(String email) async {
-    var dio = Dio();
-    var response = await dio
+    var response = await _dio
         .get('${Constants.BASE_URL}/${Constants.API_AUTH_ROUTE}?email=$email');
     debugPrint('response.data -> ${response.data}');
     bool isAuthorized = response.data['authorized'];
@@ -21,9 +22,8 @@ class HospitoqueRepository {
   }
 
   static Future<List<Medicine>> getMedicines({String keyword = ''}) async {
-    return medicines;
-    var dio = Dio();
-    var response = await dio.get(
+    // return medicines;
+    var response = await _dio.get(
         '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}?q=$keyword');
     List<dynamic> medicinesResponse = response.data;
     // return mockedMedicines();
@@ -31,8 +31,7 @@ class HospitoqueRepository {
   }
 
   static Future<void> addMedicine(Medicine medicine) async {
-    var dio = Dio();
-    var response = await dio.post(
+    var response = await _dio.post(
       '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}',
       data: medicine.toMap(),
     );
@@ -40,9 +39,8 @@ class HospitoqueRepository {
   }
 
   static Future<void> discardMedicines(DiscardMedicineBody body) async {
-    return Future.value();
-    var dio = Dio();
-    var response = await dio.delete(
+    // return Future.value();
+    var response = await _dio.delete(
       '${Constants.BASE_URL}/${Constants.API_MEDICINE_ROUTE}',
       data: body.toMap(),
     );

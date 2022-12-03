@@ -25,10 +25,13 @@ class HospitoqueApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
-        BlocProvider<SearchMedicineBloc>(create: (context) => SearchMedicineBloc()),
+        BlocProvider<SearchMedicineBloc>(
+            create: (context) => SearchMedicineBloc()),
         BlocProvider<ListMedicineBloc>(create: (context) => ListMedicineBloc()),
-        BlocProvider<RegisterMedicineBloc>(create: (context) => RegisterMedicineBloc()),
-        BlocProvider<DiscardMedicineBloc>(create: (context) => DiscardMedicineBloc()),
+        BlocProvider<RegisterMedicineBloc>(
+            create: (context) => RegisterMedicineBloc()),
+        BlocProvider<DiscardMedicineBloc>(
+            create: (context) => DiscardMedicineBloc()),
       ],
       child: MaterialApp(
         title: Constants.APP_NAME,
@@ -46,6 +49,12 @@ ThemeData _getAppTheme(BuildContext context) {
   return theme.copyWith(
     colorScheme: ColorScheme.fromSwatch(
       primarySwatch: Colors.red,
+      accentColor: Colors.red,
     ),
+    highlightColor: Colors.black,
   );
+}
+
+extension HospitoqueTheme on ThemeData {
+  Color get successColor => colorScheme.primary;
 }

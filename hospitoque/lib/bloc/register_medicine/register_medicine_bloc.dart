@@ -42,8 +42,7 @@ class RegisterMedicineBloc
   }
 
   void _onChangeAvailableEvent(
-    ChangeAvailableRegisterMedicineEvent event, emit
-  ) {
+      ChangeAvailableRegisterMedicineEvent event, emit) {
     emit(state.copyWith(available: event.available));
   }
 
@@ -66,7 +65,8 @@ class RegisterMedicineBloc
     emit(newState);
   }
 
-  void _onChangeExpirationDateEvent(ChangeExpirationDateRegisterMedicineEvent event, emit) {
+  void _onChangeExpirationDateEvent(
+      ChangeExpirationDateRegisterMedicineEvent event, emit) {
     emit(state.copyWith(expirationDate: event.value));
   }
 
@@ -131,7 +131,6 @@ class RegisterMedicineBloc
   void _onNextOfInitialStatus(Emitter<RegisterMedicineState> emit) {
     bool isValid = _verifyFields();
     debugPrint('isValid -> $isValid');
-    // TODO add validation
     if (!isValid) {
       return;
     }
@@ -141,9 +140,9 @@ class RegisterMedicineBloc
           .where((field) => !field.enabled)
           .map((c) => c.value)
           .toList(),
-      variant: state.composition
+      variant: state.variant
           .where((field) => !field.enabled)
-          .map((v) => v.value)
+          .map((v) => v.value + 'mg')
           .toList(),
       name: state.name,
       manufacturer: state.manufacturer,
@@ -155,15 +154,11 @@ class RegisterMedicineBloc
     ));
   }
 
-  bool _verifyFields() {
-    if (state.name.isEmpty ||
-        state.manufacturer.isEmpty ||
-        state.composition.isEmpty ||
-        state.variant.isEmpty) {
-      return false;
-    }
-    return true;
-  }
+  bool _verifyFields() => !(state.name.isEmpty ||
+      state.manufacturer.isEmpty ||
+      state.available.isEmpty ||
+      state.composition.where((c) => !c.enabled).toList().isEmpty ||
+      state.variant.where((v) => !v.enabled).toList().isEmpty);
 
   Future<void> _onNextOfConfirmationStatus(
       Emitter<RegisterMedicineState> emit) async {

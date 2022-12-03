@@ -111,12 +111,12 @@ List<_MainScreenItem> _items() => [
       ),
       _MainScreenItem(
         text: Constants.REGISTER_CHECK_OUT,
-        icon: Icons.upload_outlined,
+        icon: Icons.download_outlined,
         isEnabled: false,
       ),
       _MainScreenItem(
         text: Constants.REGISTER_CHECK_IN,
-        icon: Icons.download_outlined,
+        icon: Icons.upload_outlined,
         isEnabled: false,
       ),
       _MainScreenItem(

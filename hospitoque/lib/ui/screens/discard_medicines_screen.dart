@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
 import 'package:hospitoque/ui/base_screen.dart';
+import 'package:hospitoque/ui/components/hospitoque_icons.dart';
 import 'package:hospitoque/ui/components/selectable_medicine_table.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
+import 'package:hospitoque/ui/routes.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 
 class DiscardMedicinesScreen extends StatelessWidget {
@@ -31,7 +33,10 @@ class DiscardMedicinesScreen extends StatelessWidget {
             child: _ReasonWidgetStatus(onDelete: _delete),
           );
         }
-        return SizedBox();
+        return Padding(
+          padding: EdgeInsets.all(context.layoutWidth(6)),
+          child: _DeletedWidgetStatus(),
+        );
       }),
     );
   }
@@ -63,7 +68,7 @@ class _SelectWidgetStatus extends StatelessWidget {
             medicines: medicines,
           ),
         ),
-        Flexible(
+        Expanded(
           flex: 1,
           child: IconButton(
             icon: Icon(Icons.delete),
@@ -114,9 +119,7 @@ class _ReasonWidgetStatusState extends State<_ReasonWidgetStatus> {
           child: Text(
             'Você pretende descartar medicamentos fora do prazo de validade.\n'
             'Por isso, é necessário inserir um motivo.',
-            style: kIsWeb
-                ? Theme.of(context).textTheme.displaySmall
-                : Theme.of(context).textTheme.titleMedium,
+            style: _getTitleStyle(context),
             textAlign: TextAlign.center,
           ),
         ),
@@ -126,7 +129,7 @@ class _ReasonWidgetStatusState extends State<_ReasonWidgetStatus> {
           child: HospitoqueTextField(
             controller: _controller,
             hintText: 'Motivo...',
-            autofocus: true,
+            autofocus: false,
             type: TextInputType.multiline,
             maxLines: kIsWeb ? 5 : 3,
             onChanged: (reason) =>
@@ -145,3 +148,49 @@ class _ReasonWidgetStatusState extends State<_ReasonWidgetStatus> {
     );
   }
 }
+
+class _DeletedWidgetStatus extends StatelessWidget {
+  const _DeletedWidgetStatus({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Spacer(flex: 1),
+            Flexible(
+              flex: 2,
+              child: Text(
+                'Medicamentos descartados com sucesso!',
+                textAlign: TextAlign.center,
+                style: _getTitleStyle(context),
+              ),
+            ),
+            Spacer(flex: 1),
+            Expanded(
+              flex: 8,
+              child: HospitoqueSuccessfulIcon(),
+            ),
+            Spacer(flex: 1),
+            Flexible(
+              flex: 1,
+              child: ElevatedButton(
+                child: Text('Encerrar Descarte'),
+                onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                    context, HospitoqueRouter.HOME_ROUTE, (route) => false),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+_getTitleStyle(BuildContext context) => kIsWeb
+    ? Theme.of(context).textTheme.displaySmall
+    : Theme.of(context).textTheme.titleMedium;

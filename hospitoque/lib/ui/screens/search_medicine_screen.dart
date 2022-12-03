@@ -46,7 +46,7 @@ class _Medicines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 6,
+      flex: kIsWeb ? 6 : 4,
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: context.layoutHeight(5)),
         child: medicines.isNotEmpty
@@ -90,7 +90,6 @@ class _EmptyListState extends StatelessWidget {
         Spacer(flex: 1),
       ],
     );
-    ;
   }
 }
 
@@ -102,6 +101,8 @@ class _TextField extends StatefulWidget {
 }
 
 class _TextFieldState extends State<_TextField> {
+  FocusNode _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     String _keyword = '';
@@ -113,6 +114,7 @@ class _TextFieldState extends State<_TextField> {
           Expanded(
             flex: 9,
             child: HospitoqueTextField(
+              focusNode: _focusNode,
               autofocus: false,
               hintText: 'Digite aqui...',
               onChanged: (value) => _keyword = value,

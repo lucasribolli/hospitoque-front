@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/register_medicine/register_medicine_bloc.dart';
 import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
+import 'package:hospitoque/ui/components/hospitoque_icons.dart';
 import 'package:hospitoque/ui/hospitoque_button.dart';
 import 'package:hospitoque/ui/hospitoque_text_field.dart';
 import 'package:hospitoque/ui/medicine_details.dart';
@@ -57,6 +58,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                         _SimpleField(
                           name: 'Unidades disponíveis',
                           hintText: '8',
+                          type: TextInputType.number,
                           onChangeText: (value) => BlocProvider.of<
                                   RegisterMedicineBloc>(context)
                               .add(ChangeAvailableRegisterMedicineEvent(value)),
@@ -135,15 +137,7 @@ class RegisterMedicineScreen extends StatelessWidget {
                             medicine: state.medicine!,
                           ),
                         ),
-                        Flexible(
-                          flex: 4,
-                          child: Icon(
-                            Icons.check_circle_sharp,
-                            color: Theme.of(context).primaryColor,
-                            size: context
-                                .layoutHeight(context.isLargeWidth ? 35 : 20),
-                          ),
-                        )
+                        Flexible(flex: 4, child: HospitoqueSuccessfulIcon())
                       ],
                     ),
                   ),
@@ -195,6 +189,7 @@ class _SimpleField extends StatelessWidget {
   final String hintText;
   final bool required;
   final void Function(String) onChangeText;
+  final TextInputType? type;
 
   const _SimpleField({
     Key? key,
@@ -202,6 +197,7 @@ class _SimpleField extends StatelessWidget {
     required this.hintText,
     this.required = true,
     required this.onChangeText,
+    this.type,
   }) : super(key: key);
 
   @override
@@ -214,6 +210,7 @@ class _SimpleField extends StatelessWidget {
           height: context.layoutHeight(1.5),
         ),
         HospitoqueTextField(
+          type: type,
           autofocus: false,
           hintText: hintText,
           onChanged: onChangeText,

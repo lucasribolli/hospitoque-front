@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
+import 'package:hospitoque/main.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 import 'package:hospitoque/utils/date_formatter.dart';
 
@@ -63,6 +64,7 @@ class SelectableMedicineTable extends StatelessWidget {
                         Expanded(
                           flex: _checkboxFlex,
                           child: Checkbox(
+                            activeColor: Theme.of(context).successColor,
                             value: m.selected,
                             onChanged: (selected) {
                               BlocProvider.of<DiscardMedicineBloc>(

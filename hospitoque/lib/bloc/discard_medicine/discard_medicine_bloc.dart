@@ -22,13 +22,15 @@ class DiscardMedicineBloc
 
   Future<void> _onListAll(ListAllMedicinesEvent event, emit) async {
     try {
+      emit(DiscardMedicineState.initial()
+          .copyWith(status: DiscardMedicineStatus.select));
       List<Medicine> medicines =
           await HospitoqueRepository.getMedicines(keyword: '');
       List<DiscartableMedicine> expirationMedicines =
           _orderMedicines(medicines);
       debugPrint('$_TAG expirationMedicines -> $expirationMedicines');
-      var newState = DiscardMedicineState.initial();
-      emit(newState.copyWith(medicines: expirationMedicines));
+      emit(DiscardMedicineState.initial()
+          .copyWith(medicines: expirationMedicines));
     } catch (e) {
       debugPrint('$_TAG error on list all: $e');
     }
@@ -72,6 +74,10 @@ class DiscardMedicineBloc
 
   Future<void> _onDeleteAllSelected(
       event, Emitter<DiscardMedicineState> emit) async {
+    if ((state.reason ?? '').isEmpty && state.status.isReason) {
+      debugPrint('$_TAG reason is empty!');
+      return;
+    }
     List<DiscartableMedicine> medicinesToDelete =
         state.medicines.where((m) => m.selected).toList();
     debugPrint('$_TAG medicinesToDelete -> $medicinesToDelete');
@@ -84,20 +90,21 @@ class DiscardMedicineBloc
         .toList()
         .isNotEmpty;
 
-    if (shouldInsertReasonToDelete) {
+    if (!state.status.isReason && shouldInsertReasonToDelete) {
       emit(state.copyWith(status: DiscardMedicineStatus.reason));
     } else {
       List<String> ids = medicinesToDelete.map((m) => m.medicine.id!).toList();
-      await _delete(ids, emit);
+      await _discard(ids, emit);
     }
   }
 
-  Future<void> _delete(
+  Future<void> _discard(
     List<String> ids,
     Emitter<DiscardMedicineState> emit,
   ) async {
     try {
       var body = DiscardMedicineBody(ids: ids, reason: state.reason);
+      debugPrint('$_TAG discard body: ${body.toMap()}');
       await HospitoqueRepository.discardMedicines(body);
       emit(state.copyWith(status: DiscardMedicineStatus.deleted));
     } catch (e) {

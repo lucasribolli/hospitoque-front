@@ -24,7 +24,7 @@ class HospitoqueTextField extends StatelessWidget {
     this.suffixIcon,
     this.enabled = true,
     this.type = TextInputType.text,
-    this.maxLines,
+    this.maxLines = 1,
     this.focusNode,
   }) : super(key: key);
 

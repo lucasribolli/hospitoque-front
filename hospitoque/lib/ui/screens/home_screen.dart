@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospitoque/bloc/notification/notification_bloc.dart';
 import 'package:hospitoque/repositories/constants.dart';
 import 'package:hospitoque/ui/base_screen.dart';
 import 'package:hospitoque/ui/hospitoque_decorations.dart';
@@ -12,15 +15,46 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseScreen(
       showExitButtonOnMobile: true,
-      child: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(3)),
-          child: const Expanded(
-            child: _ItemsWidget(),
+      child: BlocListener<NotificationBloc, NotificationState>(
+        listener: (context, state) {
+          if (state is ThereIsExpiredMedicines) {
+            _notifyAboutExpiredMedicines(context);
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: context.layoutWidth(3)),
+            child: const Expanded(
+              child: _ItemsWidget(),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  void _notifyAboutExpiredMedicines(BuildContext context) {
+    String message = 'Você possui medicamentos vencidados.';
+    SnackBar snackBar;
+    if (!kIsWeb) {
+      snackBar = SnackBar(
+        content: Text(message),
+        dismissDirection: DismissDirection.none,
+      );
+    } else {
+      snackBar = SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: context.layoutHeight(87),
+          left: context.layoutWidth(82),
+          right: context.layoutWidth(1),
+        ),
+        // width: context.layoutWidth(4),
+        dismissDirection: DismissDirection.none,
+      );
+    }
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 

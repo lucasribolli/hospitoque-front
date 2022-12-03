@@ -1,1 +1,2 @@
-[] Criar nova tabela de deletados e copiar os registros para ela, deletando da medicines
+[x] Criar nova tabela de deletados e copiar os registros para ela, deletando da medicines
+[ ] Fazer toast logo no home screen para medicines antigos

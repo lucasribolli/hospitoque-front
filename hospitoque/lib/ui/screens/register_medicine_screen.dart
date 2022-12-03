@@ -259,11 +259,13 @@ class _DateField extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.date_range),
                 onPressed: () async {
+                  int fiveYears = 365 * 5;
                   DateTime? newDate = await showDatePicker(
                     context: context,
                     initialDate: date,
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 365 * 10)),
+                    firstDate:
+                        DateTime.now().subtract(Duration(days: fiveYears)),
+                    lastDate: DateTime.now().add(Duration(days: fiveYears)),
                   );
                   if (newDate != null) {
                     BlocProvider.of<RegisterMedicineBloc>(

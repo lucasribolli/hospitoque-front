@@ -78,14 +78,18 @@ class SelectableMedicineTable extends StatelessWidget {
                           flex: _columnFlex,
                           child: _TableItem(
                             value: m.medicine.id!,
-                            color: _getLineColor(m.timeToExpiration),
+                            color: _getLineColor(m.timeToExpiration)?.color,
+                            fontWeight:
+                                _getLineColor(m.timeToExpiration)?.fontWeight,
                           ),
                         ),
                         Expanded(
                           flex: _columnFlex,
                           child: _TableItem(
                             value: m.medicine.name,
-                            color: _getLineColor(m.timeToExpiration),
+                            color: _getLineColor(m.timeToExpiration)?.color,
+                            fontWeight:
+                                _getLineColor(m.timeToExpiration)?.fontWeight,
                           ),
                         ),
                         Expanded(
@@ -94,7 +98,9 @@ class SelectableMedicineTable extends StatelessWidget {
                             value: DateFormatter.getDayFormatted(
                               m.medicine.expirationDate,
                             ),
-                            color: _getLineColor(m.timeToExpiration),
+                            color: _getLineColor(m.timeToExpiration)?.color,
+                            fontWeight:
+                                _getLineColor(m.timeToExpiration)?.fontWeight,
                           ),
                         )
                       ],
@@ -108,12 +114,12 @@ class SelectableMedicineTable extends StatelessWidget {
     );
   }
 
-  Color? _getLineColor(TimeToExpiration time) {
+  _LineStyle? _getLineColor(TimeToExpiration time) {
     if (time.isInPast) {
-      return Colors.red;
+      return _LineStyle(Colors.red, FontWeight.bold);
     }
     if (time.isSameMonth) {
-      return Colors.orange;
+      return _LineStyle(Colors.orange, FontWeight.bold);
     }
     return null;
   }
@@ -121,11 +127,13 @@ class SelectableMedicineTable extends StatelessWidget {
 
 class _TableItem extends StatelessWidget {
   final Color? color;
+  final FontWeight? fontWeight;
 
   const _TableItem({
     Key? key,
     required this.value,
     this.color,
+    this.fontWeight = FontWeight.normal,
   }) : super(key: key);
   final String value;
 
@@ -140,9 +148,19 @@ class _TableItem extends StatelessWidget {
       child: Center(
         child: Text(
           value,
+          style: TextStyle(
+            fontWeight: fontWeight,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
     );
   }
+}
+
+class _LineStyle {
+  final Color color;
+  final FontWeight fontWeight;
+
+  _LineStyle(this.color, this.fontWeight);
 }

@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   void _notifyAboutExpiredMedicines(BuildContext context) {
-    String message = 'Você possui medicamentos vencidados.';
+    String message = 'Você possui medicamentos vencidos.';
     SnackBar snackBar;
     if (!kIsWeb) {
       snackBar = SnackBar(

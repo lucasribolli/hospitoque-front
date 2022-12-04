@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospitoque/bloc/discard_medicine/discard_medicine_bloc.dart';
 import 'package:hospitoque/main.dart';
+import 'package:hospitoque/ui/routes.dart';
 import 'package:hospitoque/ui/ui_extensions.dart';
 import 'package:hospitoque/utils/date_formatter.dart';
 
@@ -58,52 +59,60 @@ class SelectableMedicineTable extends StatelessWidget {
             children: [
               ...medicines
                   .map(
-                    (m) => Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          flex: _checkboxFlex,
-                          child: Checkbox(
-                            activeColor: Theme.of(context).successColor,
-                            value: m.selected,
-                            onChanged: (selected) {
-                              BlocProvider.of<DiscardMedicineBloc>(
-                                context,
-                                listen: false,
-                              ).add(SelectMedicineEvent(m));
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: _columnFlex,
-                          child: _TableItem(
-                            value: m.medicine.id!,
-                            color: _getLineColor(m.timeToExpiration)?.color,
-                            fontWeight:
-                                _getLineColor(m.timeToExpiration)?.fontWeight,
-                          ),
-                        ),
-                        Expanded(
-                          flex: _columnFlex,
-                          child: _TableItem(
-                            value: m.medicine.name,
-                            color: _getLineColor(m.timeToExpiration)?.color,
-                            fontWeight:
-                                _getLineColor(m.timeToExpiration)?.fontWeight,
-                          ),
-                        ),
-                        Expanded(
-                          flex: _columnFlex,
-                          child: _TableItem(
-                            value: DateFormatter.getDayFormatted(
-                              m.medicine.expirationDate,
+                    (m) => GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          HospitoqueRouter.MEDICINE_DETAILS_ROUTE,
+                          arguments: m.medicine,
+                        );
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            flex: _checkboxFlex,
+                            child: Checkbox(
+                              activeColor: Theme.of(context).successColor,
+                              value: m.selected,
+                              onChanged: (selected) {
+                                BlocProvider.of<DiscardMedicineBloc>(
+                                  context,
+                                  listen: false,
+                                ).add(SelectMedicineEvent(m));
+                              },
                             ),
-                            color: _getLineColor(m.timeToExpiration)?.color,
-                            fontWeight:
-                                _getLineColor(m.timeToExpiration)?.fontWeight,
                           ),
-                        )
-                      ],
+                          Expanded(
+                            flex: _columnFlex,
+                            child: _TableItem(
+                              value: m.medicine.id!,
+                              color: _getLineColor(m.timeToExpiration)?.color,
+                              fontWeight:
+                                  _getLineColor(m.timeToExpiration)?.fontWeight,
+                            ),
+                          ),
+                          Expanded(
+                            flex: _columnFlex,
+                            child: _TableItem(
+                              value: m.medicine.name,
+                              color: _getLineColor(m.timeToExpiration)?.color,
+                              fontWeight:
+                                  _getLineColor(m.timeToExpiration)?.fontWeight,
+                            ),
+                          ),
+                          Expanded(
+                            flex: _columnFlex,
+                            child: _TableItem(
+                              value: DateFormatter.getDayFormatted(
+                                m.medicine.expirationDate,
+                              ),
+                              color: _getLineColor(m.timeToExpiration)?.color,
+                              fontWeight:
+                                  _getLineColor(m.timeToExpiration)?.fontWeight,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                   .toList(),

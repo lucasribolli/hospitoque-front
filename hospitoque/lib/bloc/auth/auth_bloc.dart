@@ -18,9 +18,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onAuthEventSignIn(AuthEventSignIn event, emit) async {
     try {
       String? email = await HospitoqueRepository.signIn();
-      if(email != null) {
+      if (email != null) {
         bool isAuthorized = await HospitoqueRepository.auth(email);
-        if(isAuthorized) {
+        if (isAuthorized) {
           await HospitoqueRepository.saveEmail(email);
           emit(AuthSuccessState());
         } else {
@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(AuthUnauthorizedState());
         }
       }
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       debugPrint('_onAuthEventSignIn error: $e');
       emit(AuthFailureState());
     }
@@ -37,7 +37,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _onVerifyLogin(event, emit) async {
     try {
       String? email = await HospitoqueRepository.getEmail();
-      if(email == null && !kDebugMode) {
+      if (email == null) {
         emit(AuthUnauthorizedState());
       } else {
         emit(AuthSuccessState());
@@ -47,7 +47,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  FutureOr<void> _onSignOut(AuthEventSignOut event, Emitter<AuthState> emit) async {
+  FutureOr<void> _onSignOut(
+      AuthEventSignOut event, Emitter<AuthState> emit) async {
     await HospitoqueRepository.logout();
     emit(AuthUnauthorizedState());
   }
